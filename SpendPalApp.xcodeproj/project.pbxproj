@@ -58,6 +58,9 @@
 		34399F76262B2BBC00C39F01 /* SpendPalApp */ = {
 			isa = PBXGroup;
 			children = (
+				34399F93262B2C4300C39F01 /* Controllers */,
+				34399F92262B2C3900C39F01 /* Views */,
+				34399F90262B2C2100C39F01 /* Common */,
 				34399F77262B2BBC00C39F01 /* AppDelegate.swift */,
 				34399F79262B2BBC00C39F01 /* SceneDelegate.swift */,
 				34399F7B262B2BBC00C39F01 /* ViewController.swift */,
@@ -68,6 +71,27 @@
 				34399F80262B2BBC00C39F01 /* SpendPalApp.xcdatamodeld */,
 			);
 			path = SpendPalApp;
+			sourceTree = "<group>";
+		};
+		34399F90262B2C2100C39F01 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		34399F92262B2C3900C39F01 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		34399F93262B2C4300C39F01 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,7 +324,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = uk.ac.westminster.SpendPalApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -319,7 +343,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = uk.ac.westminster.SpendPalApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
