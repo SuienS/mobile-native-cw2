@@ -42,25 +42,6 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
         }
     }
     
-    @objc
-    func addNewExCategory(_ sender: Any) {
-        let appContext = self._appFetchedResultsController?.managedObjectContext
-        let newExCategory = Category(context: appContext!)
-             
-        newExCategory.profile="Profile_0" // TODO: Add Multiple Profiles Support
-        newExCategory.name="Test: \(Date())"
-        //newExCategory.
-
-        do {
-            try appContext!.save()
-        } catch {
-
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
-    }
-
-    
     // MARK: - Expenses Category Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -136,7 +117,7 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: SpendAppUtils.managedAppObjContext, sectionNameKeyPath: nil, cacheName: "Master")
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: SpendAppUtils.managedAppObjContext, sectionNameKeyPath: nil, cacheName: nil)
         aFetchedResultsController.delegate = self
         _appFetchedResultsController = aFetchedResultsController
         
@@ -196,8 +177,6 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
                     let selectedObj = exCategoryFetchResController.object(at: selectedIndex)
                     let expensesVC = (segue.destination as! UINavigationController).topViewController as! ExpensesViewController
                     expensesVC.expenseCategory = selectedObj
-//                    expensesVC.navigationItem.backBarButtonItem = splitViewController?.displayModeButtonItem
-//                    expensesVC.navigationItem.leftItemsSupplementBackButton = true
                     expensesViewController = expensesVC
                 }
             default:

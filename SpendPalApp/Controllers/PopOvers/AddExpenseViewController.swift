@@ -35,9 +35,11 @@ class AddExpenseViewController: UIViewController {
             expense.occurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex)
             expense.dueReminder = switchReminder.isOn
             expense.notes = textFieldNotes.text
+            expense.category = expenseCategory?.name
             expenseCategory?.addToExpenses(expense)
             SpendAppUtils.managedAppObj.saveContext()
             dismiss(animated: true, completion: nil)
+            print("Added to \(expense.category ?? "No Exp")")
         }
     }
     
