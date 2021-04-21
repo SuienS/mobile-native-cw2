@@ -27,6 +27,13 @@ class SpendAppUtils {
                               "DEFAULT": UIColor.systemGray6,
                               "SELECTED": UIColor.systemBlue.withAlphaComponent(0.1)] as [String : UIColor]
     
+    static let colourCodesIndex = ["Green": 0,
+                              "Blue": 1,
+                              "Yellow":2,
+                              "Pink":3,
+                              "Purple":4,
+                              "Teal":5] as [String : Int]
+    
     
     static let NSDecimalFormatter = NumberFormatter()
     

@@ -20,6 +20,7 @@ class AddExCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         attemptEditLoad(category: expenseCategory)
+        valueChangedSegControlColourCode(self.segmentedControlColourCode)
     }
     
     @IBAction func buttonCategorySavePressed(_ sender: UIButton) {
@@ -77,7 +78,7 @@ class AddExCategoryViewController: UIViewController {
             textFieldCategoryName.text = category.name
             textFieldBudget.text = "\(category.monthlyBudget?.decimalValue ?? 0.0)"
             textFieldNotes.text = category.notes
-            segmentedControlColourCode.selectedSegmentIndex = segmentedControlColourCode.segmentIndex(identifiedBy: UIAction.Identifier(category.colour ?? "Blue"))
+            segmentedControlColourCode.selectedSegmentIndex = SpendAppUtils.colourCodesIndex[category.colour ?? "Blue"] ?? 0
         }
     }
     
