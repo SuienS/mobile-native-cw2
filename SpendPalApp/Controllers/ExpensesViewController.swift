@@ -11,9 +11,15 @@ import CoreData
 class ExpensesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
 
     @IBOutlet weak var tableViewExpenses: UITableView!
-    var expenseCategory: Category? 
+    @IBOutlet weak var barButtonAddExpense: UIBarButtonItem!
     
-    let managedAppObjContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    // TODO - SETTERS AND GETTERS
+    var expenseCategory: Category? {
+        didSet {
+            barButtonAddExpense.isEnabled = true
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +39,10 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cusCell = tableView.dequeueReusableCell(withIdentifier: "cusCellExpense", for: indexPath) as? ExpenseTableViewCell else {fatalError("Cell Buid Error")}
+        guard let cusCell = tableView.dequeueReusableCell(withIdentifier: "cusCellExpense", for: indexPath) as? ExpenseTableViewCell
+        else {
+            fatalError("Cell Buid Error")
+        }
         let expense = expenseFetchResController.object(at: indexPath)
         buildExpenseCell(cusCell, withExpense: expense)
         let cusCellBackView = UIView()
@@ -41,6 +50,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         cusCell.selectedBackgroundView = cusCellBackView
         cusCellBackView.layer.cornerRadius = 8
         cusCell.layer.cornerRadius = 8
+        cusCell.clipsToBounds = true
         return cusCell
     }
     
@@ -73,7 +83,6 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func buildExpenseCell(_ cusCell: ExpenseTableViewCell, withExpense expense: Expense) {
         cusCell.textFieldExpenseName.text = "Name:\(expense.name ?? "N/A") Amount:\(expense.amount ?? 0)"
-        print("BUILD CELL")
         
     }
 
@@ -101,12 +110,12 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         if let expenseCategory = self.expenseCategory {
             let predicateExpense = NSPredicate(format: "assignedCategory = %@", expenseCategory)
             fetchRequest.predicate = predicateExpense
-            print(expenseCategory.name ?? "NIL")
         } else {
             print("No Expense Category")
+            return NSFetchedResultsController<Expense>()
         }
 
-        let aFetchedResultsController = NSFetchedResultsController<Expense>(fetchRequest: fetchRequest, managedObjectContext: managedAppObjContext, sectionNameKeyPath: #keyPath(Expense.category), cacheName: nil)
+        let aFetchedResultsController = NSFetchedResultsController<Expense>(fetchRequest: fetchRequest, managedObjectContext: SpendAppUtils.managedAppObjContext, sectionNameKeyPath: #keyPath(Expense.category), cacheName: nil)
         aFetchedResultsController.delegate = self
         _appFetchedResultsController = aFetchedResultsController
         
@@ -116,8 +125,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
              let nserror = error as NSError
              fatalError("Unable to Fetch Data \(nserror), \(nserror.userInfo)")
         }
-        print(_appFetchedResultsController!.fetchedObjects ?? "No Res")
-        return _appFetchedResultsController!
+        //print(_appFetchedResultsController!.fetchedObjects ?? "No Res")
+        return _appFetchedResultsController ?? NSFetchedResultsController<Expense>()
     }
     
 

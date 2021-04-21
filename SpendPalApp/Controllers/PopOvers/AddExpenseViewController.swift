@@ -40,6 +40,8 @@ class AddExpenseViewController: UIViewController {
             SpendAppUtils.managedAppObj.saveContext()
             dismiss(animated: true, completion: nil)
             print("Added to \(expense.category ?? "No Exp")")
+        } else {
+            print("Error Input!")
         }
     }
     

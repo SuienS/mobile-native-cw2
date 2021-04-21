@@ -13,6 +13,7 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
     @IBOutlet weak var buttonAddExpenseCategory: UIBarButtonItem!
     var expensesViewController: ExpensesViewController? = nil
     @IBOutlet weak var buttonProfile: UIBarButtonItem!
+    @IBOutlet weak var barButtonEditCategory: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,21 +27,13 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
     }
     
     
-    @IBAction func buttonOrganizePressed(_ sender: UIBarButtonItem) {
-        isEditing = !isEditing
-    }
-    
-    
     @IBAction func longPressedCell(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             isEditing = !isEditing
+            barButtonEditCategory.isEnabled = false
         }
     }
-    @IBAction func tappedCell(_ sender: UITapGestureRecognizer) {
-        if isEditing{
-            isEditing = false
-        }
-    }
+    
     
     // MARK: - Expenses Category Table View
 
@@ -62,6 +55,7 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
         cusCell.selectedBackgroundView = cusCellBackView
         cusCellBackView.layer.cornerRadius = 8
         cusCell.layer.cornerRadius = 8
+        cusCell.clipsToBounds = true
         return cusCell
     }
 
@@ -178,6 +172,13 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
                     let expensesVC = (segue.destination as! UINavigationController).topViewController as! ExpensesViewController
                     expensesVC.expenseCategory = selectedObj
                     expensesViewController = expensesVC
+                    barButtonEditCategory.isEnabled = true
+                }
+            case "toExCategoryEdit":
+                if let selectedIndex = tableView.indexPathForSelectedRow {
+                    let selectedObj = exCategoryFetchResController.object(at: selectedIndex)
+                    let exCategoryAddVC = segue.destination as! AddExCategoryViewController
+                    exCategoryAddVC.expenseCategory = selectedObj
                 }
             default:
                 break

@@ -14,8 +14,12 @@ class AddExCategoryViewController: UIViewController {
     @IBOutlet weak var textFieldNotes: UITextField!
     @IBOutlet weak var segmentedControlColourCode: UISegmentedControl!
     var colourCode: String = "Green"
+    
+    var expenseCategory: Category?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        attemptEditLoad(category: expenseCategory)
     }
     
     @IBAction func buttonCategorySavePressed(_ sender: UIButton) {
@@ -31,9 +35,12 @@ class AddExCategoryViewController: UIViewController {
             exCategory.notes = textFieldNotes.text
             SpendAppUtils.managedAppObj.saveContext()
             dismiss(animated: true, completion: nil)
+        } else {
+            print("Error Input!")
         }
         
     }
+    
     @IBAction func valueChangedSegControlColourCode(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -62,6 +69,15 @@ class AddExCategoryViewController: UIViewController {
         default:
             sender.selectedSegmentTintColor = UIColor.systemBlue
             colourCode = "DEFAULT"
+        }
+    }
+    
+    func attemptEditLoad(category: Category?) {
+        if let category = category {
+            textFieldCategoryName.text = category.name
+            textFieldBudget.text = "\(category.monthlyBudget?.decimalValue ?? 0.0)"
+            textFieldNotes.text = category.notes
+            segmentedControlColourCode.selectedSegmentIndex = segmentedControlColourCode.segmentIndex(identifiedBy: UIAction.Identifier(category.colour ?? "Blue"))
         }
     }
     
