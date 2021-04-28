@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class AddExCategoryViewController: UIViewController {
 
@@ -41,6 +42,30 @@ class AddExCategoryViewController: UIViewController {
         }
         
     }
+    
+    @IBAction func buttonCategoryEditPressed(_ sender: UIButton) {
+//        expenseCategory?.name = textFieldCategoryName.text
+//        expenseCategory?.monthlyBudget = textFieldBudget.text
+//        expenseCategory?.colour = colourCode
+//        expenseCategory?.notes = textFieldNotes.text
+//        SpendAppUtils.managedAppObj.saveContext()
+//        dismiss(animated: true, completion: nil)
+        
+        let categoryName = textFieldCategoryName.text
+        let strBudgetVal = textFieldBudget.text ?? "0"
+        let budgetVal = SpendAppUtils.toNSDecimal(strBudgetVal)
+        if (categoryName != "") && budgetVal.decimalValue >= 0.0 && budgetVal.decimalValue < Decimal.greatestFiniteMagnitude{
+            expenseCategory?.name = categoryName
+            expenseCategory?.monthlyBudget = budgetVal
+            expenseCategory?.colour = colourCode
+            expenseCategory?.notes = textFieldNotes.text
+            SpendAppUtils.managedAppObj.saveContext()
+            dismiss(animated: true, completion: nil)
+        } else {
+            print("Error Input!")
+        }
+    }
+    
     
     @IBAction func valueChangedSegControlColourCode(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -81,6 +106,5 @@ class AddExCategoryViewController: UIViewController {
             segmentedControlColourCode.selectedSegmentIndex = SpendAppUtils.colourCodesIndex[category.colour ?? "Blue"] ?? 0
         }
     }
-    
 
 }

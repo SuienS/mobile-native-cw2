@@ -67,3 +67,16 @@ class SpendAppUtils {
 }
 
 
+extension UIView {
+    func fadeUpdateTransition(_ animDuration:CFTimeInterval) {
+        let updateAnimation = CATransition()
+        updateAnimation.timingFunction = CAMediaTimingFunction(name:
+            CAMediaTimingFunctionName.easeInEaseOut)
+        updateAnimation.type = CATransitionType.fade
+        updateAnimation.duration = animDuration
+        layer.add(updateAnimation, forKey: CATransitionType.fade.rawValue)
+    }
+}
+
+
+

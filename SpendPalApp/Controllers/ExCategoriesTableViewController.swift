@@ -86,8 +86,13 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
     }
 
     func buildExCategoryCell(_ cusCell: ExCategoryTableViewCell, withExCategory category: Category) {
+        cusCell.textLabelExCategoryName.fadeUpdateTransition(0.4)
         cusCell.textLabelExCategoryName.text = category.name
+        
+        cusCell.textLabelBudgetAmount.fadeUpdateTransition(0.4)
         cusCell.textLabelBudgetAmount.text =  "\(category.monthlyBudget?.decimalValue ?? 0.0)"
+        
+        cusCell.textLabelNotes.fadeUpdateTransition(0.4)
         cusCell.textLabelNotes.text = category.notes
         cusCell.backgroundColor = SpendAppUtils.getCodeColour(category.colour ?? "DEFUALT")
         
@@ -186,8 +191,4 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
              
         }
     }
-
-
-
 }
-

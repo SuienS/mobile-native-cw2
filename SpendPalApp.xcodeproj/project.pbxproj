@@ -35,7 +35,7 @@
 		34399F9A262BE56A00C39F01 /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		34399F9F262BE75200C39F01 /* ExCategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExCategoryTableViewCell.swift; sourceTree = "<group>"; };
 		34399FA2262C22E100C39F01 /* SpendAppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendAppUtils.swift; sourceTree = "<group>"; };
-		34B57A24262E9818004D8FFE /* GraphicalDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicalDetailsViewController.swift; sourceTree = "<group>"; };
+		34B57A24262E9818004D8FFE /* GraphicalDetailsViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = GraphicalDetailsViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		34B57A29262EDF72004D8FFE /* AddExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
 		34B57A2D262EE951004D8FFE /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
