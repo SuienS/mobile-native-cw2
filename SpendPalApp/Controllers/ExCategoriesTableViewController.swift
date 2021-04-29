@@ -94,7 +94,7 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
         
         cusCell.textLabelNotes.fadeUpdateTransition(0.4)
         cusCell.textLabelNotes.text = category.notes
-        cusCell.backgroundColor = SpendAppUtils.getCodeColour(category.colour ?? "DEFUALT")
+        cusCell.labelColour.backgroundColor = SpendAppUtils.getCodeColour(category.colour ?? "DEFUALT")
         
     }
 

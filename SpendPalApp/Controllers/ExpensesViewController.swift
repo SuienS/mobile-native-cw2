@@ -82,11 +82,17 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func buildExpenseCell(_ cusCell: ExpenseTableViewCell, withExpense expense: Expense) {
-        cusCell.textFieldExpenseName.text = "Name:\(expense.name ?? "N/A") Amount:\(expense.amount ?? 0)"
-        
+        cusCell.textFieldExpenseName.text = expense.name ?? "N/A"
+        cusCell.textFieldExpenseAmount.text = "\(expense.amount ?? 0)"
+        cusCell.textFieldDateNType.text = "\(expense.date ?? Date.distantPast) - \(expense.occurrence ?? "N/A")"
+        cusCell.textFieldExpenseNotes.text = expense.notes ?? ""
+        if expense.dueReminder{
+            cusCell.buttonSetReminder.setTitle("Reminder - ON", for: .normal)
+        }
+        SpendAppCustomGraphics.buildBarChart(with: [1.4,2], on: cusCell.viewBarChart, origin: CGPoint(x: 0,y: cusCell.viewBarChart.frame.height/4), colour: UIColor.systemGreen)
     }
-
-
+    
+    
     // MARK: - Expense Category Fet. Res. Controller
 
     var _appFetchedResultsController: NSFetchedResultsController<Expense>? = nil

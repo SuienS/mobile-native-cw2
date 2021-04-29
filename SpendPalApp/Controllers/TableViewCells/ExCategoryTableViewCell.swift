@@ -13,6 +13,7 @@ class ExCategoryTableViewCell: UITableViewCell {
     @IBOutlet weak var textLabelCurrencySign: UILabel!
     @IBOutlet weak var textLabelBudgetAmount: UILabel!
     @IBOutlet weak var textLabelNotes: UILabel!
+    @IBOutlet weak var labelColour: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
     }

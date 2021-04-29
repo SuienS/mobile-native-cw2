@@ -14,7 +14,7 @@ class SpendAppUtils {
     static var managedAppObjContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     static var managedAppObj = (UIApplication.shared.delegate as! AppDelegate)
     
-    static var colourAlpha = CGFloat(0.3)
+    static var colourAlpha = CGFloat(0.5)
     
     static let colourCodes = ["Green":
                                 UIColor.systemGreen.withAlphaComponent(colourAlpha),

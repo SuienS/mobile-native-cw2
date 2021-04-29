@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3404441B262D44C8007165D6 /* AddExCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3404441A262D44C8007165D6 /* AddExCategoryViewController.swift */; };
 		34044427262D4CF5007165D6 /* SpendAppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34399FA2262C22E100C39F01 /* SpendAppUtils.swift */; };
+		34168B94263A7BBD001BA506 /* SpendAppCustomGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34168B93263A7BBD001BA506 /* SpendAppCustomGraphics.swift */; };
 		34399F78262B2BBC00C39F01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34399F77262B2BBC00C39F01 /* AppDelegate.swift */; };
 		34399F7A262B2BBC00C39F01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34399F79262B2BBC00C39F01 /* SceneDelegate.swift */; };
 		34399F7C262B2BBC00C39F01 /* ExCategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34399F7B262B2BBC00C39F01 /* ExCategoriesTableViewController.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		3404441A262D44C8007165D6 /* AddExCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExCategoryViewController.swift; sourceTree = "<group>"; };
+		34168B93263A7BBD001BA506 /* SpendAppCustomGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendAppCustomGraphics.swift; sourceTree = "<group>"; };
 		34399F74262B2BBC00C39F01 /* SpendPalApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpendPalApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34399F77262B2BBC00C39F01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34399F79262B2BBC00C39F01 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				34399FA2262C22E100C39F01 /* SpendAppUtils.swift */,
 				34399F77262B2BBC00C39F01 /* AppDelegate.swift */,
 				34399F79262B2BBC00C39F01 /* SceneDelegate.swift */,
+				34168B93263A7BBD001BA506 /* SpendAppCustomGraphics.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				34399F9B262BE56A00C39F01 /* ExpensesViewController.swift in Sources */,
 				34B57A2A262EDF72004D8FFE /* AddExpenseViewController.swift in Sources */,
 				34B57A2E262EE951004D8FFE /* ExpenseTableViewCell.swift in Sources */,
+				34168B94263A7BBD001BA506 /* SpendAppCustomGraphics.swift in Sources */,
 				3404441B262D44C8007165D6 /* AddExCategoryViewController.swift in Sources */,
 				34399F7A262B2BBC00C39F01 /* SceneDelegate.swift in Sources */,
 			);
