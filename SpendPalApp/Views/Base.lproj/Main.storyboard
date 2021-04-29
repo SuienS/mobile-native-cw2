@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" id="5fe-u1-6Wk">
-                                <rect key="frame" x="19" y="50" width="819" height="453"/>
+                                <rect key="frame" x="18" y="50" width="819" height="453"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <segue destination="e7X-ad-qJb" kind="embed" identifier="toCategoryGraphics" id="pOm-LW-rck"/>
                                 </connections>
                             </containerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EdJ-Jd-Ioj">
-                                <rect key="frame" x="19" y="511" width="819" height="239"/>
+                                <rect key="frame" x="18.5" y="511" width="819" height="239"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="239" id="mbG-l3-FzZ"/>
@@ -518,7 +518,6 @@
                         <viewLayoutGuide key="safeArea" id="40L-Go-K8y"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="CY6-cM-clC" firstAttribute="top" secondItem="iGH-BB-x1Y" secondAttribute="top" constant="205" id="Ivn-ES-Gaf"/>
                             <constraint firstItem="CY6-cM-clC" firstAttribute="leading" secondItem="iGH-BB-x1Y" secondAttribute="leadingMargin" constant="270" id="V6f-b0-vW1"/>
                             <constraint firstItem="CY6-cM-clC" firstAttribute="trailing" secondItem="iGH-BB-x1Y" secondAttribute="trailingMargin" constant="-270.5" id="cuj-dH-s3N"/>
                         </constraints>

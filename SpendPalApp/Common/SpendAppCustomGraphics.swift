@@ -14,6 +14,27 @@ class SpendAppCustomGraphics: UIView {
             return
         }
         
+        let pieChartLayerBack = CAShapeLayer()
+
+        let pieChartPathBack = UIBezierPath(arcCenter: arcCenter, radius: 175, startAngle: 0, endAngle: (2 * CGFloat.pi), clockwise: true)
+        
+        pieChartLayerBack.path = pieChartPathBack.cgPath
+        
+        pieChartLayerBack.fillColor = nil
+        
+        pieChartLayerBack.strokeColor = UIColor.systemGray4.cgColor
+        pieChartLayerBack.lineWidth = 35
+        
+        pieChartLayerBack.lineCap = .round
+        pieChartLayerBack.shadowRadius = 5.0
+        pieChartLayerBack.shadowColor = UIColor.systemGray.cgColor
+        pieChartLayerBack.shadowOpacity = 1.0
+        
+        
+        inView.layer.addSublayer(pieChartLayerBack)
+        
+        
+        
         var pieLayers: [CAShapeLayer] = []
 
         
@@ -45,7 +66,7 @@ class SpendAppCustomGraphics: UIView {
             
             pieChartLayer.lineCap = .round
             pieChartLayer.shadowRadius = 10.0
-            pieChartLayer.shadowColor = UIColor.gray.cgColor
+            pieChartLayer.shadowColor = UIColor.systemGray.cgColor
             pieChartLayer.shadowOpacity = 1.0
             
             pieChartLayer.strokeEnd = 0
@@ -74,12 +95,11 @@ class SpendAppCustomGraphics: UIView {
             return
         }
         
-        let animationBar = CABasicAnimation(keyPath: "path")
         
         // Background Bar
         let barChartLayerBack = CAShapeLayer()
 
-        let barChartPathBack = UIBezierPath(roundedRect: CGRect(origin: origin, size: CGSize(width: inView.frame.width * 0.01, height: inView.frame.height/2)), cornerRadius: 10)
+        let barChartPathBack = UIBezierPath(roundedRect: CGRect(origin: origin, size: CGSize(width: inView.frame.width, height: inView.frame.height/2)), cornerRadius: 10)
         
         barChartLayerBack.path = barChartPathBack.cgPath
         
@@ -89,13 +109,7 @@ class SpendAppCustomGraphics: UIView {
         barChartLayerBack.shadowOpacity = 1.0
 
         inView.layer.addSublayer(barChartLayerBack)
-        
-        
-        animationBar.toValue = UIBezierPath(roundedRect: CGRect(origin: origin, size: CGSize(width: inView.frame.width, height: inView.frame.height/2)), cornerRadius: 10).cgPath
-        animationBar.duration = 1.5
-        animationBar.fillMode = .forwards
-        animationBar.isRemovedOnCompletion = false
-        barChartLayerBack.add(animationBar, forKey: nil)
+    
         
         
         // Filling Bar
@@ -112,6 +126,7 @@ class SpendAppCustomGraphics: UIView {
 
         inView.layer.addSublayer(barChartLayer)
         
+        let animationBar = CABasicAnimation(keyPath: "path")
         animationBar.toValue = UIBezierPath(roundedRect: CGRect(origin: origin, size: CGSize(width: inView.frame.width * CGFloat((inData[0]/inData[1])), height: inView.frame.height/2)), cornerRadius: 10).cgPath
         animationBar.duration = 1.5
         animationBar.fillMode = .forwards
