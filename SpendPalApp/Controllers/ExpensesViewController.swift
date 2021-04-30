@@ -61,7 +61,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             fatalError("Cell Buid Error")
         }
         let expense = expenseFetchResController.object(at: indexPath)
-        buildExpenseCell(cusCell, withExpense: expense)
+        buildExpenseCell(cusCell, index:indexPath, withExpense: expense)
         let cusCellBackView = UIView()
         cusCellBackView.backgroundColor = SpendAppUtils.getCodeColour("SELECTED")
         cusCell.selectedBackgroundView = cusCellBackView
@@ -98,7 +98,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.moveRow(at: sourceIndexPath, to: destinationIndexPath)
     }
     
-    func buildExpenseCell(_ cusCell: ExpenseTableViewCell, withExpense expense: Expense) {
+    func buildExpenseCell(_ cusCell: ExpenseTableViewCell, index:IndexPath, withExpense expense: Expense) {
         cusCell.textFieldExpenseName.text = expense.name ?? "N/A"
         cusCell.textFieldExpenseAmount.text = "\(expense.amount ?? 0)"
         cusCell.textFieldDateNType.text = "\(expense.date ?? Date.distantPast) - \(expense.occurrence ?? "N/A")"
@@ -118,7 +118,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             Float(truncating: totalExpensesVal as NSNumber)
         ]
         
-        SpendAppCustomGraphics.buildBarChart(with: expenseBarChartData, on: cusCell.viewBarChart, origin: CGPoint(x: 0,y: cusCell.viewBarChart.frame.height/4), colour: UIColor.systemGreen)
+        SpendAppCustomGraphics.buildBarChart(with: expenseBarChartData, on: cusCell.viewBarChart, origin: CGPoint(x: 0,y: cusCell.viewBarChart.frame.height/4), colour: SpendAppCustomGraphics.getChartColour(index: index.row))
+        
     }
     
     
@@ -132,7 +133,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         fetchRequest.fetchBatchSize = 20
         
         // Sorting; There's no ordering in CoreData. Hence SortDescriptor is what creates the order
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "amount", ascending: false)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -220,9 +221,9 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         case .delete:
             tableViewExpenses.deleteRows(at: [indexPath!], with: .fade)
         case .update:
-            buildExpenseCell(tableViewExpenses.cellForRow(at: indexPath!)! as! ExpenseTableViewCell, withExpense: anObject as! Expense)
+            buildExpenseCell(tableViewExpenses.cellForRow(at: indexPath!)! as! ExpenseTableViewCell, index: indexPath!, withExpense: anObject as! Expense)
         case .move:
-            buildExpenseCell(tableViewExpenses.cellForRow(at: indexPath!)! as! ExpenseTableViewCell, withExpense: anObject as! Expense)
+            buildExpenseCell(tableViewExpenses.cellForRow(at: indexPath!)! as! ExpenseTableViewCell, index: indexPath!, withExpense: anObject as! Expense)
             tableViewExpenses.moveRow(at: indexPath!, to: newIndexPath!)
         default:
             return

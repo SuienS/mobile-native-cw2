@@ -8,7 +8,7 @@
 import UIKit
 
 class SpendAppCustomGraphics: UIView {
-    static let colArray = [UIColor.systemTeal.cgColor,UIColor.systemBlue.cgColor,UIColor.systemGreen.cgColor, UIColor.systemRed.cgColor,UIColor.systemPurple.cgColor]
+    static let colArray = [UIColor.systemTeal.cgColor,UIColor.systemBlue.cgColor,UIColor.systemGreen.cgColor, UIColor.systemRed.cgColor,UIColor.systemGray.cgColor]
     
     static func buildPieChartReduced(reduction:Int, with inData:[Float], on inView:UIView, arcCenter: CGPoint){
         let inDataSorted = Array(inData.sorted().reversed())
@@ -108,7 +108,7 @@ class SpendAppCustomGraphics: UIView {
         
     }
     
-    static func buildBarChart(with inData:[Float], on inView:UIView, origin: CGPoint, colour: UIColor) {
+    static func buildBarChart(with inData:[Float], on inView:UIView, origin: CGPoint, colour: CGColor) {
         if(inData.count != 2){
             return
         }
@@ -137,7 +137,7 @@ class SpendAppCustomGraphics: UIView {
         
         barChartLayer.path = barChartPath.cgPath
         
-        barChartLayer.fillColor = colour.cgColor
+        barChartLayer.fillColor = colour
         barChartLayer.shadowRadius = 5.0
         barChartLayer.shadowColor = UIColor.gray.cgColor
         barChartLayer.shadowOpacity = 1.0

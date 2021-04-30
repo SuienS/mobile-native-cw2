@@ -14,7 +14,6 @@ class AddExCategoryViewController: UIViewController {
     @IBOutlet weak var textFieldBudget: UITextField!
     @IBOutlet weak var textFieldNotes: UITextField!
     
-    @IBOutlet var textFieldsAll: [UITextField]!
     
     @IBOutlet weak var segmentedControlColourCode: UISegmentedControl!
     var colourCode: String = "Green"

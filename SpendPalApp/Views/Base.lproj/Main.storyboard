@@ -25,11 +25,8 @@
                                 </connections>
                             </containerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EdJ-Jd-Ioj">
-                                <rect key="frame" x="16" y="511" width="819" height="1019"/>
+                                <rect key="frame" x="16" y="511" width="819" height="309"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="1019" id="mbG-l3-FzZ"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cusCellExpense" rowHeight="146" id="dhM-Hu-Ur5" customClass="ExpenseTableViewCell" customModule="SpendPalApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="819" height="146"/>
@@ -125,6 +122,7 @@
                             <constraint firstItem="EdJ-Jd-Ioj" firstAttribute="trailing" secondItem="5fe-u1-6Wk" secondAttribute="trailing" id="6mP-V8-KBf"/>
                             <constraint firstItem="EdJ-Jd-Ioj" firstAttribute="leading" secondItem="5fe-u1-6Wk" secondAttribute="leading" id="SGa-Qv-M3e"/>
                             <constraint firstItem="EdJ-Jd-Ioj" firstAttribute="top" secondItem="5fe-u1-6Wk" secondAttribute="bottom" constant="8" id="sYf-dn-3NR"/>
+                            <constraint firstAttribute="bottom" secondItem="EdJ-Jd-Ioj" secondAttribute="bottom" id="vhb-P1-Gdh"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -510,20 +508,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remaining  (£)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zyx-nZ-Ffa">
-                                <rect key="frame" x="348" y="254" width="123" height="23"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" adjustsLetterSpacingToFitWidth="YES" id="pO3-Bd-3a2">
-                                <rect key="frame" x="341" y="285" width="136" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                <color key="textColor" systemColor="systemRedColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Budget  £:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xtT-vb-hgs">
                                 <rect key="frame" x="290" y="192" width="133" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -550,6 +534,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" systemColor="systemBlueColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remaining  (£)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zyx-nZ-Ffa">
+                                <rect key="frame" x="348" y="307" width="123" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" adjustsLetterSpacingToFitWidth="YES" id="pO3-Bd-3a2">
+                                <rect key="frame" x="341" y="328" width="136" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -755,9 +753,6 @@
                         <outlet property="textFieldExpenseAmount" destination="fdt-rG-zto" id="C3B-zO-JkT"/>
                         <outlet property="textFieldExpenseName" destination="v6d-Ut-2SZ" id="v9L-hA-TBK"/>
                         <outlet property="textFieldNotes" destination="uOB-QA-bUK" id="37n-T8-tRs"/>
-                        <outletCollection property="textFieldsAll" destination="v6d-Ut-2SZ" collectionClass="NSMutableArray" id="c1V-il-17G"/>
-                        <outletCollection property="textFieldsAll" destination="fdt-rG-zto" collectionClass="NSMutableArray" id="Qvc-nO-d9N"/>
-                        <outletCollection property="textFieldsAll" destination="uOB-QA-bUK" collectionClass="NSMutableArray" id="CEz-Hd-AXd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mvV-xZ-tWK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -896,9 +891,6 @@
                         <outlet property="textFieldBudget" destination="R2f-uz-HNa" id="HNs-tK-vcH"/>
                         <outlet property="textFieldCategoryName" destination="Jm7-4v-hcO" id="awJ-Bt-5r6"/>
                         <outlet property="textFieldNotes" destination="UVT-fw-a8V" id="xhB-YM-aYQ"/>
-                        <outletCollection property="textFieldsAll" destination="Jm7-4v-hcO" collectionClass="NSMutableArray" id="tZA-XD-NMI"/>
-                        <outletCollection property="textFieldsAll" destination="R2f-uz-HNa" collectionClass="NSMutableArray" id="Q9V-ZE-MlE"/>
-                        <outletCollection property="textFieldsAll" destination="UVT-fw-a8V" collectionClass="NSMutableArray" id="483-n9-4dY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ygk-Ri-wcI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

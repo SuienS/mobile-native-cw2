@@ -15,9 +15,7 @@ class AddExpenseViewController: UIViewController {
     @IBOutlet weak var switchReminder: UISwitch!
     @IBOutlet weak var segControllerOccurence: UISegmentedControl!
     @IBOutlet weak var textFieldNotes: UITextField!
-    
-    @IBOutlet var textFieldsAll: [UITextField]!
-    
+        
     
     var expenseCategory:Category?
     
