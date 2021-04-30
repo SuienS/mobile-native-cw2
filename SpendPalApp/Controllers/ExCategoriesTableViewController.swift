@@ -175,7 +175,7 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
                 if let selectedIndex = tableView.indexPathForSelectedRow {
                     let selectedObj = exCategoryFetchResController.object(at: selectedIndex)
                     let expensesVC = (segue.destination as! UINavigationController).topViewController as! ExpensesViewController
-                    expensesVC.expenseCategory = selectedObj
+                    expensesVC.category = selectedObj
                     expensesViewController = expensesVC
                     barButtonEditCategory.isEnabled = true
                 }

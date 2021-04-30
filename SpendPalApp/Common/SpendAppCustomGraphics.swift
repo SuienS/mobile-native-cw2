@@ -8,12 +8,33 @@
 import UIKit
 
 class SpendAppCustomGraphics: UIView {
+    static let colArray = [UIColor.systemTeal.cgColor,UIColor.systemBlue.cgColor,UIColor.systemGreen.cgColor, UIColor.systemRed.cgColor,UIColor.systemPurple.cgColor]
+    
+    static func buildPieChartReduced(reduction:Int, with inData:[Float], on inView:UIView, arcCenter: CGPoint){
+        let inDataSorted = Array(inData.sorted().reversed())
+        
+        var processedData: [Float] = []
+        
+        if inDataSorted.count > reduction {
+            processedData = Array(inDataSorted[0 ..< reduction])
+            let sumLast = Array(inDataSorted[reduction ..< inDataSorted.count]).reduce(0, +)
+            processedData.append(sumLast)
+
+        }else{
+            processedData = inDataSorted
+        }
+        
+        print(processedData)
+        
+        buildPieChart(with: processedData, on: inView, arcCenter: arcCenter)
+    }
+    
 
     static func buildPieChart(with inData:[Float], on inView:UIView, arcCenter: CGPoint){
         if inData.isEmpty{
             return
         }
-        
+                
         let pieChartLayerBack = CAShapeLayer()
 
         let pieChartPathBack = UIBezierPath(arcCenter: arcCenter, radius: 175, startAngle: 0, endAngle: (2 * CGFloat.pi), clockwise: true)
@@ -50,9 +71,6 @@ class SpendAppCustomGraphics: UIView {
             let newAngle = (2 * CGFloat.pi) * CGFloat(inData[i]/total)
             
             endAnglePie = startAnglePie + newAngle
-            
-            
-            print("Start: \(startAnglePie) | End: \(endAnglePie)"  )
 
             let pieChartPath = UIBezierPath(arcCenter: arcCenter, radius: 175, startAngle: startAnglePie, endAngle: endAnglePie, clockwise: true)
             
@@ -60,8 +78,8 @@ class SpendAppCustomGraphics: UIView {
             
             pieChartLayer.fillColor = nil
             
-            let colArray = [UIColor.systemTeal.cgColor,UIColor.systemBlue.cgColor,UIColor.systemGreen.cgColor, UIColor.systemRed.cgColor]
-            pieChartLayer.strokeColor = colArray[i % colArray.count]
+
+            pieChartLayer.strokeColor = getChartColour(index: i)
             pieChartLayer.lineWidth = 35
             
             pieChartLayer.lineCap = .round
@@ -128,11 +146,19 @@ class SpendAppCustomGraphics: UIView {
         
         let animationBar = CABasicAnimation(keyPath: "path")
         animationBar.toValue = UIBezierPath(roundedRect: CGRect(origin: origin, size: CGSize(width: inView.frame.width * CGFloat((inData[0]/inData[1])), height: inView.frame.height/2)), cornerRadius: 10).cgPath
-        animationBar.duration = 1.5
+        animationBar.duration = 1
         animationBar.fillMode = .forwards
         animationBar.isRemovedOnCompletion = false
 
         barChartLayer.add(animationBar, forKey: nil)
+    }
+    
+    static func getChartColour(index: Int) -> CGColor{
+        if(index < colArray.count){
+            return colArray[index  % colArray.count]
+        }else{
+            return colArray[colArray.count - 1]
+        }
     }
 
 

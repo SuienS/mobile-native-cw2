@@ -13,6 +13,9 @@ class AddExCategoryViewController: UIViewController {
     @IBOutlet weak var textFieldCategoryName: UITextField!
     @IBOutlet weak var textFieldBudget: UITextField!
     @IBOutlet weak var textFieldNotes: UITextField!
+    
+    @IBOutlet var textFieldsAll: [UITextField]!
+    
     @IBOutlet weak var segmentedControlColourCode: UISegmentedControl!
     var colourCode: String = "Green"
     
@@ -22,6 +25,7 @@ class AddExCategoryViewController: UIViewController {
         super.viewDidLoad()
         attemptEditLoad(category: expenseCategory)
         valueChangedSegControlColourCode(self.segmentedControlColourCode)
+        
     }
     
     @IBAction func buttonCategorySavePressed(_ sender: UIButton) {

@@ -18,17 +18,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" id="5fe-u1-6Wk">
-                                <rect key="frame" x="18" y="50" width="819" height="453"/>
+                                <rect key="frame" x="16" y="50" width="819" height="453"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <segue destination="e7X-ad-qJb" kind="embed" identifier="toCategoryGraphics" id="pOm-LW-rck"/>
                                 </connections>
                             </containerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EdJ-Jd-Ioj">
-                                <rect key="frame" x="18.5" y="511" width="819" height="239"/>
+                                <rect key="frame" x="16" y="511" width="819" height="1019"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="239" id="mbG-l3-FzZ"/>
+                                    <constraint firstAttribute="height" constant="1019" id="mbG-l3-FzZ"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cusCellExpense" rowHeight="146" id="dhM-Hu-Ur5" customClass="ExpenseTableViewCell" customModule="SpendPalApp" customModuleProvider="target">
@@ -123,9 +123,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EdJ-Jd-Ioj" firstAttribute="trailing" secondItem="5fe-u1-6Wk" secondAttribute="trailing" id="6mP-V8-KBf"/>
-                            <constraint firstItem="EdJ-Jd-Ioj" firstAttribute="bottom" secondItem="6uB-tR-P3x" secondAttribute="bottom" id="OkD-Yq-Ofo"/>
                             <constraint firstItem="EdJ-Jd-Ioj" firstAttribute="leading" secondItem="5fe-u1-6Wk" secondAttribute="leading" id="SGa-Qv-M3e"/>
-                            <constraint firstItem="5fe-u1-6Wk" firstAttribute="top" secondItem="6uB-tR-P3x" secondAttribute="top" id="Ubo-k9-xKU"/>
                             <constraint firstItem="EdJ-Jd-Ioj" firstAttribute="top" secondItem="5fe-u1-6Wk" secondAttribute="bottom" constant="8" id="sYf-dn-3NR"/>
                         </constraints>
                     </view>
@@ -169,7 +167,7 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expense Category Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="24" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N84-jA-1E2">
                                             <rect key="frame" x="15" y="13" width="288" height="33.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="28"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -198,7 +196,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYJ-Ys-l3Q">
-                                            <rect key="frame" x="0.0" y="0.0" width="15" height="110"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="11" height="110"/>
                                             <color key="backgroundColor" systemColor="systemGray2Color"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -215,7 +213,7 @@
                                         <constraint firstAttribute="bottom" secondItem="gYJ-Ys-l3Q" secondAttribute="bottom" id="2wD-qJ-uCa"/>
                                         <constraint firstItem="gYJ-Ys-l3Q" firstAttribute="top" secondItem="hTm-El-SrV" secondAttribute="top" id="6ug-UJ-W9V"/>
                                         <constraint firstItem="JaK-VL-yT9" firstAttribute="top" secondItem="N84-jA-1E2" secondAttribute="bottom" constant="2.5" id="8IT-gO-FSa"/>
-                                        <constraint firstItem="N84-jA-1E2" firstAttribute="leading" secondItem="gYJ-Ys-l3Q" secondAttribute="trailing" id="HH4-J6-3KR"/>
+                                        <constraint firstItem="N84-jA-1E2" firstAttribute="leading" secondItem="gYJ-Ys-l3Q" secondAttribute="trailing" constant="4" id="HH4-J6-3KR"/>
                                         <constraint firstItem="lcK-ea-Be1" firstAttribute="leading" secondItem="iQK-Rj-wov" secondAttribute="trailing" constant="8" id="MVL-Bp-6Ny"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="lcK-ea-Be1" secondAttribute="bottom" constant="6" id="OVz-W6-ltR"/>
                                         <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="JaK-VL-yT9" secondAttribute="trailing" id="OkW-OG-19X"/>
@@ -298,7 +296,7 @@
         <!--Add Ex Category View Controller-->
         <scene sceneID="8Id-Ba-ASW">
             <objects>
-                <viewController id="CKo-Kz-Tng" customClass="AddExCategoryViewController" customModule="SpendPalApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ExCategoryAdd" id="CKo-Kz-Tng" customClass="AddExCategoryViewController" customModule="SpendPalApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RQm-mw-DgV">
                         <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -312,12 +310,12 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Category Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="YEN-DP-mxU">
                                 <rect key="frame" x="109" y="69" width="281" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" textContentType="name"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="name"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Budget (£)" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="vrd-0k-PDd">
                                 <rect key="frame" x="109" y="111" width="281" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" textContentType="cc-number"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad" textContentType="cc-number"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Notes" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="rwp-ke-OZO">
                                 <rect key="frame" x="31" y="212" width="359" height="34"/>
@@ -419,7 +417,7 @@
                     <toolbarItems/>
                     <value key="contentSizeForViewInPopover" type="size" width="420" height="290"/>
                     <nil key="simulatedTopBarMetrics"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="420" height="290"/>
                     <connections>
@@ -503,29 +501,71 @@
                 <viewController id="e7X-ad-qJb" customClass="GraphicalDetailsViewController" customModule="SpendPalApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iGH-BB-x1Y">
                         <rect key="frame" x="0.0" y="0.0" width="819.5" height="453"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a Category" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" id="CY6-cM-clC">
-                                <rect key="frame" x="290" y="205" width="239" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="uOY-aP-Bgz"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a Category" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" adjustsLetterSpacingToFitWidth="YES" id="CY6-cM-clC">
+                                <rect key="frame" x="290" y="142" width="239" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="29"/>
                                 <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remaining  (£)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zyx-nZ-Ffa">
+                                <rect key="frame" x="348" y="254" width="123" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" adjustsLetterSpacingToFitWidth="YES" id="pO3-Bd-3a2">
+                                <rect key="frame" x="341" y="285" width="136" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Budget  £:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xtT-vb-hgs">
+                                <rect key="frame" x="290" y="192" width="133" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" id="Jdz-7R-0hx">
+                                <rect key="frame" x="431" y="192" width="98" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <color key="textColor" systemColor="systemBlueColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Spent  £:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZwD-TY-GHp">
+                                <rect key="frame" x="301" y="223" width="122" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" id="tVi-Jc-7z5">
+                                <rect key="frame" x="431" y="223" width="98" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <color key="textColor" systemColor="systemBlueColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="40L-Go-K8y"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="CY6-cM-clC" firstAttribute="leading" secondItem="iGH-BB-x1Y" secondAttribute="leadingMargin" constant="270" id="V6f-b0-vW1"/>
-                            <constraint firstItem="CY6-cM-clC" firstAttribute="trailing" secondItem="iGH-BB-x1Y" secondAttribute="trailingMargin" constant="-270.5" id="cuj-dH-s3N"/>
-                        </constraints>
                     </view>
                     <size key="freeformSize" width="819.5" height="453"/>
                     <connections>
                         <outlet property="labelExCategory" destination="CY6-cM-clC" id="KFw-eH-ucn"/>
+                        <outlet property="labelRemaining" destination="pO3-Bd-3a2" id="7aS-G8-oeI"/>
+                        <outlet property="labelTotalBudget" destination="Jdz-7R-0hx" id="in2-fp-hIZ"/>
+                        <outlet property="labelTotalSpent" destination="tVi-Jc-7z5" id="Zd3-I5-F25"/>
                         <outlet property="viewGraphics" destination="iGH-BB-x1Y" id="br4-Dr-Mtd"/>
+                        <outletCollection property="labelsGraphicView" destination="xtT-vb-hgs" collectionClass="NSMutableArray" id="R31-AD-NNf"/>
+                        <outletCollection property="labelsGraphicView" destination="ZwD-TY-GHp" collectionClass="NSMutableArray" id="yLT-Dk-xp4"/>
+                        <outletCollection property="labelsGraphicView" destination="zyx-nZ-Ffa" collectionClass="NSMutableArray" id="eB6-FI-o7I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8dr-AJ-xOP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -557,7 +597,7 @@
         <!--Add Expense View Controller-->
         <scene sceneID="owp-Xz-QGG">
             <objects>
-                <viewController id="JKm-Nx-mtZ" customClass="AddExpenseViewController" customModule="SpendPalApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ExpenseAdd" id="JKm-Nx-mtZ" customClass="AddExpenseViewController" customModule="SpendPalApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OSM-q8-wgW">
                         <rect key="frame" x="0.0" y="0.0" width="500" height="270"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -574,17 +614,17 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Expense Amount (£)" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="fdt-rG-zto">
                                 <rect key="frame" x="99" y="95" width="381" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" textContentType="cc-number"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad" textContentType="cc-number"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Expense Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="v6d-Ut-2SZ">
                                 <rect key="frame" x="99" y="58" width="381" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" textContentType="name"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="name"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add Notes" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uOB-QA-bUK">
                                 <rect key="frame" x="20" y="216" width="460" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="utr-sG-Z9b">
                                 <rect key="frame" x="112" y="177" width="368" height="32"/>
@@ -715,6 +755,9 @@
                         <outlet property="textFieldExpenseAmount" destination="fdt-rG-zto" id="C3B-zO-JkT"/>
                         <outlet property="textFieldExpenseName" destination="v6d-Ut-2SZ" id="v9L-hA-TBK"/>
                         <outlet property="textFieldNotes" destination="uOB-QA-bUK" id="37n-T8-tRs"/>
+                        <outletCollection property="textFieldsAll" destination="v6d-Ut-2SZ" collectionClass="NSMutableArray" id="c1V-il-17G"/>
+                        <outletCollection property="textFieldsAll" destination="fdt-rG-zto" collectionClass="NSMutableArray" id="Qvc-nO-d9N"/>
+                        <outletCollection property="textFieldsAll" destination="uOB-QA-bUK" collectionClass="NSMutableArray" id="CEz-Hd-AXd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mvV-xZ-tWK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -724,7 +767,7 @@
         <!--Add Ex Category View Controller-->
         <scene sceneID="Ike-D1-TQf">
             <objects>
-                <viewController id="WdT-8E-Wdr" customClass="AddExCategoryViewController" customModule="SpendPalApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ExCategoryEdit" id="WdT-8E-Wdr" customClass="AddExCategoryViewController" customModule="SpendPalApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EcN-Th-8RT">
                         <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -738,12 +781,12 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Category Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Jm7-4v-hcO">
                                 <rect key="frame" x="109" y="69" width="281" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" textContentType="name"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="name"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Budget (£)" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="R2f-uz-HNa">
                                 <rect key="frame" x="109" y="111" width="281" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" textContentType="cc-number"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad" textContentType="cc-number"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Notes" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="UVT-fw-a8V">
                                 <rect key="frame" x="31" y="212" width="359" height="34"/>
@@ -751,7 +794,7 @@
                                     <constraint firstAttribute="height" constant="34" id="1Xc-Hy-WVD"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fVE-AN-bgk">
                                 <rect key="frame" x="31" y="172" width="359" height="32"/>
@@ -853,6 +896,9 @@
                         <outlet property="textFieldBudget" destination="R2f-uz-HNa" id="HNs-tK-vcH"/>
                         <outlet property="textFieldCategoryName" destination="Jm7-4v-hcO" id="awJ-Bt-5r6"/>
                         <outlet property="textFieldNotes" destination="UVT-fw-a8V" id="xhB-YM-aYQ"/>
+                        <outletCollection property="textFieldsAll" destination="Jm7-4v-hcO" collectionClass="NSMutableArray" id="tZA-XD-NMI"/>
+                        <outletCollection property="textFieldsAll" destination="R2f-uz-HNa" collectionClass="NSMutableArray" id="Q9V-ZE-MlE"/>
+                        <outletCollection property="textFieldsAll" destination="UVT-fw-a8V" collectionClass="NSMutableArray" id="483-n9-4dY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ygk-Ri-wcI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -872,11 +918,17 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

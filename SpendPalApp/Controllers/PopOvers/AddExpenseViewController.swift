@@ -16,10 +16,19 @@ class AddExpenseViewController: UIViewController {
     @IBOutlet weak var segControllerOccurence: UISegmentedControl!
     @IBOutlet weak var textFieldNotes: UITextField!
     
+    @IBOutlet var textFieldsAll: [UITextField]!
+    
+    
     var expenseCategory:Category?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        textFieldsAll.forEach{txt in
+//            let shortcut : UITextInputAssistantItem = txt.inputAssistantItem
+//            shortcut.leadingBarButtonGroups = []
+//            shortcut.trailingBarButtonGroups = []
+//        }
 
     }
     
