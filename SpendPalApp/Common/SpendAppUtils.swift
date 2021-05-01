@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import EventKit
+import EventKitUI
 
 
 class SpendAppUtils {
@@ -28,11 +30,16 @@ class SpendAppUtils {
                               "SELECTED": UIColor.systemBlue.withAlphaComponent(0.1)] as [String : UIColor]
     
     static let colourCodesIndex = ["Green": 0,
-                              "Blue": 1,
-                              "Yellow":2,
-                              "Pink":3,
-                              "Purple":4,
-                              "Teal":5] as [String : Int]
+                                   "Blue": 1,
+                                   "Yellow":2,
+                                   "Pink":3,
+                                   "Purple":4,
+                                   "Teal":5] as [String : Int]
+    
+    static let eventTypesIndex = ["One off": 0,
+                                  "Daily": 1,
+                                  "Weekly":2,
+                                  "Monthly":3] as [String : Int]
     
     
     static let NSDecimalFormatter = NumberFormatter()
@@ -64,14 +71,43 @@ class SpendAppUtils {
         NSDecimalFormatter.generatesDecimalNumbers = true
         return NSDecimalFormatter.number(from: string) as? NSDecimalNumber ?? 0
     }
+    
+    static func attemptToAddSystemCalender( reminderEventStore: EKEventStore, classDelegate: Any?, dateTime: Date, eventTitle: String){
+        
+        // Handle Permission Request reject
+        // Recurring event
+        // Deleting
+        reminderEventStore.requestAccess( to: EKEntityType.event, completion:{(granted, error) in
+            DispatchQueue.main.async {
+                if (granted) && (error == nil) {
+                    let event = EKEvent(eventStore: reminderEventStore)
+                    
+                    event.title = eventTitle
+                    event.startDate = dateTime
+                    event.endDate = dateTime
+                    let calEventController = EKEventEditViewController()
+                    calEventController.event = event
+                    calEventController.eventStore = reminderEventStore
+                    calEventController.editViewDelegate = classDelegate as? EKEventEditViewDelegate
+                    (classDelegate as? UIViewController)?.present(calEventController, animated: true, completion: nil)
+                    
+                }
+            }
+        })
+        
+    }
+    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        controller.dismiss(animated: true, completion: nil)
+    }
 }
+
 
 
 extension UIView {
     func fadeUpdateTransition(_ animDuration:CFTimeInterval) {
         let updateAnimation = CATransition()
         updateAnimation.timingFunction = CAMediaTimingFunction(name:
-            CAMediaTimingFunctionName.easeInEaseOut)
+                                                                CAMediaTimingFunctionName.easeInEaseOut)
         updateAnimation.type = CATransitionType.fade
         updateAnimation.duration = animDuration
         layer.add(updateAnimation, forKey: CATransitionType.fade.rawValue)

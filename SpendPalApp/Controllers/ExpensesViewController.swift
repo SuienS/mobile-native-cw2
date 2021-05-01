@@ -12,6 +12,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var tableViewExpenses: UITableView!
     @IBOutlet weak var barButtonAddExpense: UIBarButtonItem!
+    @IBOutlet weak var barButtonEditExpense: UIBarButtonItem!
     
     // TODO - SETTERS AND GETTERS
     var category: Category? {
@@ -19,6 +20,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             barButtonAddExpense.isEnabled = true
         }
     }
+    
     
     var expensesVals: [Decimal] = [0]
     var totalExpensesVal: Decimal = 1.0
@@ -98,11 +100,33 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.moveRow(at: sourceIndexPath, to: destinationIndexPath)
     }
     
+    
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        barButtonEditExpense.isEnabled = true
+    }
+    
     func buildExpenseCell(_ cusCell: ExpenseTableViewCell, index:IndexPath, withExpense expense: Expense) {
+        cusCell.textFieldExpenseName.fadeUpdateTransition(0.5)
         cusCell.textFieldExpenseName.text = expense.name ?? "N/A"
+        
+        cusCell.textFieldExpenseAmount.fadeUpdateTransition(0.5)
         cusCell.textFieldExpenseAmount.text = "\(expense.amount ?? 0)"
-        cusCell.textFieldDateNType.text = "\(expense.date ?? Date.distantPast) - \(expense.occurrence ?? "N/A")"
+        
+        
+        // Will always show the correct relavenat time
+        // Hence the app won't be affected from changing timezones
+        let formatedDate = DateFormatter()
+        formatedDate.timeZone = .current
+        formatedDate.dateFormat = "yyyy-MM-dd' at 'HH:mm"
+        
+        let strDate = formatedDate.string(from: expense.date ?? Date.distantPast)
+        
+        cusCell.textFieldDateNType.fadeUpdateTransition(0.5)
+        cusCell.textFieldDateNType.text = "\(strDate) - \(expense.occurrence ?? "N/A")"
+        
+        cusCell.textFieldExpenseNotes.fadeUpdateTransition(0.5)
         cusCell.textFieldExpenseNotes.text = expense.notes ?? ""
+        
         if expense.dueReminder{
             cusCell.buttonSetReminder.setTitle("Reminder - ON", for: .normal)
         }
@@ -121,6 +145,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         SpendAppCustomGraphics.buildBarChart(with: expenseBarChartData, on: cusCell.viewBarChart, origin: CGPoint(x: 0,y: cusCell.viewBarChart.frame.height/4), colour: SpendAppCustomGraphics.getChartColour(index: index.row))
         
     }
+
     
     
     // MARK: - Expense Category Fet. Res. Controller
@@ -246,6 +271,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
                 if let category = self.category{
                     destViewController.category = category
                     destViewController.expensesFetch = fetchResultsExpense().fetchedObjects
+                    barButtonEditExpense.isEnabled = false
                 }
             case "toAddExpense":
                 let destViewController = segue.destination as! AddExpenseViewController
@@ -254,6 +280,21 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
                 } else {
                     print("NO")
                 }
+            case "toEditExpense":
+                if let selectedIndex = tableViewExpenses.indexPathForSelectedRow {
+                    barButtonEditExpense.isEnabled = true
+                    let selectedObj = expenseFetchResController.object(at: selectedIndex)
+                    
+                    let destViewController = segue.destination as! AddExpenseViewController
+                    if let exCategory = self.category{
+                        destViewController.expenseCategory=exCategory
+                        destViewController.expense = selectedObj
+                    } else {
+                        print("NO")
+                    }
+
+                }
+                
             default:
                 break
             }

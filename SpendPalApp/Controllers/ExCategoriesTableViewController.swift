@@ -12,7 +12,6 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
     
     @IBOutlet weak var buttonAddExpenseCategory: UIBarButtonItem!
     var expensesViewController: ExpensesViewController? = nil
-    @IBOutlet weak var buttonProfile: UIBarButtonItem!
     @IBOutlet weak var barButtonEditCategory: UIBarButtonItem!
     
     override func viewDidLoad() {
@@ -85,14 +84,18 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
         tableView.moveRow(at: sourceIndexPath, to: destinationIndexPath)
     }
 
+    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        barButtonEditCategory.isEnabled = true
+    }
+    
     func buildExCategoryCell(_ cusCell: ExCategoryTableViewCell, withExCategory category: Category) {
-        cusCell.textLabelExCategoryName.fadeUpdateTransition(0.4)
+        cusCell.textLabelExCategoryName.fadeUpdateTransition(0.5)
         cusCell.textLabelExCategoryName.text = category.name
         
-        cusCell.textLabelBudgetAmount.fadeUpdateTransition(0.4)
+        cusCell.textLabelBudgetAmount.fadeUpdateTransition(0.5)
         cusCell.textLabelBudgetAmount.text =  "\(category.monthlyBudget?.decimalValue ?? 0.0)"
         
-        cusCell.textLabelNotes.fadeUpdateTransition(0.4)
+        cusCell.textLabelNotes.fadeUpdateTransition(0.5)
         cusCell.textLabelNotes.text = category.notes
         cusCell.labelColour.backgroundColor = SpendAppUtils.getCodeColour(category.colour ?? "DEFUALT")
         
@@ -177,7 +180,6 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
                     let expensesVC = (segue.destination as! UINavigationController).topViewController as! ExpensesViewController
                     expensesVC.category = selectedObj
                     expensesViewController = expensesVC
-                    barButtonEditCategory.isEnabled = true
                 }
             case "toExCategoryEdit":
                 if let selectedIndex = tableView.indexPathForSelectedRow {

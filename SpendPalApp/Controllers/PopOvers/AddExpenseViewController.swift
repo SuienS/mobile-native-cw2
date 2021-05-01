@@ -6,21 +6,29 @@
 //
 
 import UIKit
+import EventKit
+import EventKitUI
 
-class AddExpenseViewController: UIViewController {
+class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
+    
 
     @IBOutlet weak var textFieldExpenseName: UITextField!
     @IBOutlet weak var textFieldExpenseAmount: UITextField!
-    @IBOutlet weak var datePicketDate: UIDatePicker!
+    @IBOutlet weak var datePickerDate: UIDatePicker!
     @IBOutlet weak var switchReminder: UISwitch!
     @IBOutlet weak var segControllerOccurence: UISegmentedControl!
     @IBOutlet weak var textFieldNotes: UITextField!
         
     
     var expenseCategory:Category?
+    var expense: Expense?
+    
+    let reminderSetEventStore = EKEventStore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        attemptEditLoad(expense: expense)
+        
         
 //        textFieldsAll.forEach{txt in
 //            let shortcut : UITextInputAssistantItem = txt.inputAssistantItem
@@ -38,7 +46,7 @@ class AddExpenseViewController: UIViewController {
             let expense = Expense(context:SpendAppUtils.managedAppObjContext)
             expense.name = expenseName
             expense.amount = amountVal
-            expense.date = datePicketDate.date
+            expense.date = datePickerDate.date
             expense.occurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex)
             expense.dueReminder = switchReminder.isOn
             expense.notes = textFieldNotes.text
@@ -52,5 +60,49 @@ class AddExpenseViewController: UIViewController {
         }
     }
     
+    @IBAction func buttonExpenseEditPressed(_ sender: UIButton) {
+        let expenseName = textFieldExpenseName.text
+        let expenseAmount = textFieldExpenseAmount.text ?? "0"
+        let expenseAmountVal = SpendAppUtils.toNSDecimal(expenseAmount)
+        if (expenseName != "") && expenseAmountVal.decimalValue >= 0.0 && expenseAmountVal.decimalValue < Decimal.greatestFiniteMagnitude{
+            expense?.name = expenseName
+            expense?.amount = expenseAmountVal
+            expense?.date = datePickerDate.date
+            expense?.notes = textFieldNotes.text
+            expense?.occurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex)
+            expense?.dueReminder = switchReminder.isOn
+            SpendAppUtils.managedAppObj.saveContext()
+            dismiss(animated: true, completion: nil)
+        } else {
+            print("Error Input!")
+        }
+    }
+    @IBAction func switchAddReminderChanged(_ sender: UISwitch) {
+        if let expenseName = textFieldExpenseName.text {
+            SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, dateTime: datePickerDate.date, eventTitle: expenseName)
+        }
+    }
+    
+    
+    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func attemptEditLoad(expense: Expense?) {
+        if let expense = expense {
+            textFieldExpenseName.text = expense.name
+            textFieldExpenseAmount.text = "\(expense.amount?.decimalValue ?? 0.0)"
+            textFieldNotes.text = expense.notes
+            datePickerDate.date = expense.date ?? Date()
+            switchReminder.isOn = expense.dueReminder
+            
+            segControllerOccurence.selectedSegmentIndex = SpendAppUtils.eventTypesIndex[expense.occurrence ?? "One off"] ?? 0
+            
+
+        }
+    }
+    
 
 }
+
+// Apple Bug UISwitch - https://developer.apple.com/forums/thread/132035
