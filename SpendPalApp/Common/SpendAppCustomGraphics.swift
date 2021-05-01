@@ -8,10 +8,10 @@
 import UIKit
 
 class SpendAppCustomGraphics: UIView {
-    static let colArray = [UIColor.systemTeal.cgColor,UIColor.systemBlue.cgColor,UIColor.systemGreen.cgColor, UIColor.systemRed.cgColor,UIColor.systemGray.cgColor]
+    static let colArray = [UIColor.systemGreen.cgColor,UIColor.systemTeal.cgColor,UIColor.systemBlue.cgColor,UIColor.systemOrange.cgColor, UIColor.systemRed.cgColor,UIColor.systemGray.cgColor]
     
     static func buildPieChartReduced(reduction:Int, with inData:[Float], on inView:UIView, arcCenter: CGPoint){
-        let inDataSorted = Array(inData.sorted().reversed())
+        let inDataSorted = Array(inData[1 ..< inData.count].sorted().reversed())
         
         var processedData: [Float] = []
         
@@ -23,7 +23,7 @@ class SpendAppCustomGraphics: UIView {
         }else{
             processedData = inDataSorted
         }
-        
+        processedData.insert(inData[0], at: 0)
         print(processedData)
         
         buildPieChart(with: processedData, on: inView, arcCenter: arcCenter)
@@ -153,9 +153,17 @@ class SpendAppCustomGraphics: UIView {
         barChartLayer.add(animationBar, forKey: nil)
     }
     
+    static func getBarChartColour(index: Int) -> CGColor{
+        if((index+1) < colArray.count){
+            return colArray[(index+1)]
+        }else{
+            return colArray[colArray.count - 1]
+        }
+    }
+    
     static func getChartColour(index: Int) -> CGColor{
         if(index < colArray.count){
-            return colArray[index  % colArray.count]
+            return colArray[index]
         }else{
             return colArray[colArray.count - 1]
         }

@@ -108,10 +108,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func buildExpenseCell(_ cusCell: ExpenseTableViewCell, index:IndexPath, withExpense expense: Expense) {
-        cusCell.textFieldExpenseName.fadeUpdateTransition(0.5)
         cusCell.textFieldExpenseName.text = expense.name ?? "N/A"
         
-        cusCell.textFieldExpenseAmount.fadeUpdateTransition(0.5)
         cusCell.textFieldExpenseAmount.text = "\(expense.amount ?? 0)"
         
         
@@ -123,10 +121,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         
         let strDate = formatedDate.string(from: expense.date ?? Date.distantPast)
         
-        cusCell.textFieldDateNType.fadeUpdateTransition(0.5)
         cusCell.textFieldDateNType.text = "\(strDate) - \(expense.occurrence ?? "N/A")"
         
-        cusCell.textFieldExpenseNotes.fadeUpdateTransition(0.5)
         cusCell.textFieldExpenseNotes.text = expense.notes ?? ""
         
         if expense.dueReminder{
@@ -152,7 +148,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             Float(truncating: totalExpensesVal as NSNumber)
         ]
         
-        SpendAppCustomGraphics.buildBarChart(with: expenseBarChartData, on: cusCell.viewBarChart, origin: CGPoint(x: 0,y: cusCell.viewBarChart.frame.height/4), colour: SpendAppCustomGraphics.getChartColour(index: index.row))
+        SpendAppCustomGraphics.buildBarChart(with: expenseBarChartData, on: cusCell.viewBarChart, origin: CGPoint(x: 0,y: cusCell.viewBarChart.frame.height/4), colour: SpendAppCustomGraphics.getBarChartColour(index: index.row))
         
     }
 

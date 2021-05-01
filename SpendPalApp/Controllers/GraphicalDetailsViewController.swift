@@ -56,10 +56,13 @@ class GraphicalDetailsViewController: UIViewController  {
             expenseCategory = category.name ?? ""
             dataExpenses = expensesFetch.map { $0.amount?.decimalValue ?? 0.0 }
             dataPieChart = dataExpenses.map { Float(truncating: $0 as NSNumber ) }
-            
+
             totalSpent = dataExpenses.reduce(0, +)
             totalBudget = category.monthlyBudget?.decimalValue ?? 0.0
             remaining = totalBudget - totalSpent
+            
+            
+            dataPieChart.insert(Float(truncating: remaining as NSNumber ), at: 0)
 
         }
         
