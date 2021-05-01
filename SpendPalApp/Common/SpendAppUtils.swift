@@ -66,36 +66,77 @@ class SpendAppUtils {
         }
         
     }
+
+    
     
     static func toNSDecimal(_ string: String) -> NSDecimalNumber {
         NSDecimalFormatter.generatesDecimalNumbers = true
         return NSDecimalFormatter.number(from: string) as? NSDecimalNumber ?? 0
     }
     
-    static func attemptToAddSystemCalender( reminderEventStore: EKEventStore, classDelegate: Any?, dateTime: Date, eventTitle: String){
+    static func attemptToAddSystemCalender( reminderEventStore: EKEventStore, classDelegate: Any?, dateTime: Date, eventTitle: String, notes: String, type: String, inst: Any?) {
         
         // Handle Permission Request reject
         // Recurring event
         // Deleting
-        reminderEventStore.requestAccess( to: EKEntityType.event, completion:{(granted, error) in
+        
+        // Happens safely in a new thread
+        reminderEventStore.requestAccess( to: EKEntityType.event, completion:{(permission, errorPermission) in
             DispatchQueue.main.async {
-                if (granted) && (error == nil) {
-                    let event = EKEvent(eventStore: reminderEventStore)
+                if (permission) && (errorPermission == nil) {
+                    let reminderEvent = EKEvent(eventStore: reminderEventStore)
                     
-                    event.title = eventTitle
-                    event.startDate = dateTime
-                    event.endDate = dateTime
-                    let calEventController = EKEventEditViewController()
-                    calEventController.event = event
-                    calEventController.eventStore = reminderEventStore
-                    calEventController.editViewDelegate = classDelegate as? EKEventEditViewDelegate
-                    (classDelegate as? UIViewController)?.present(calEventController, animated: true, completion: nil)
+                    reminderEvent.title = eventTitle
+                    reminderEvent.startDate = dateTime
+                    reminderEvent.endDate = dateTime
+                    reminderEvent.notes = notes
+                    reminderEvent.addAlarm(EKAlarm(relativeOffset: -86400))
+                    reminderEvent.addAlarm(EKAlarm(relativeOffset: -3600))
+                    
+                    if type != "One off" {
+                        reminderEvent.recurrenceRules = [getRecurrenceEventRule(expenseType :type)]
+                    }
+                    
+                    reminderEvent.calendar = reminderEventStore.defaultCalendarForNewEvents
+                    do {
+                        try reminderEventStore.save(reminderEvent, span: .thisEvent)
+                    } catch let error as NSError {
+                        print("Reminder Save Error : \(error)")
+                    }
+                    
+//                    let alert = UIAlertController(title: "Alert", message: "Added to Calender App Successfully", preferredStyle: UIAlertController.Style.alert)
+//                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//
+//
+//                    (inst as? UIViewController)?.present(alert, animated: true, completion: nil)
+
+
+//                    let calReminderController = EKEventEditViewController()
+//                    calReminderController.event = reminderEvent
+//                    calReminderController.eventStore = reminderEventStore
+//
+//                    calReminderController.editViewDelegate = classDelegate as? EKEventEditViewDelegate
+//                    (classDelegate as? UIViewController)?.present(calReminderController, animated: true, completion: nil)
                     
                 }
             }
         })
+    }
+    
+    static func getRecurrenceEventRule(expenseType :String) -> EKRecurrenceRule{
+        switch expenseType {
+        case "Daily":
+            return EKRecurrenceRule(recurrenceWith: EKRecurrenceFrequency.daily, interval: 1, end: EKRecurrenceEnd(occurrenceCount: 30))
+        case "Weekly":
+            return EKRecurrenceRule(recurrenceWith: EKRecurrenceFrequency.weekly, interval: 1, end: EKRecurrenceEnd(occurrenceCount: 54))
+        case "Monthly":
+            return EKRecurrenceRule(recurrenceWith: EKRecurrenceFrequency.monthly, interval: 1, end: EKRecurrenceEnd(occurrenceCount: 24))
+        default:
+            return EKRecurrenceRule(recurrenceWith: EKRecurrenceFrequency.monthly, interval: 0, end: EKRecurrenceEnd(occurrenceCount: 24))
+        }
         
     }
+    
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         controller.dismiss(animated: true, completion: nil)
     }

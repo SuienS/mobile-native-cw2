@@ -48,12 +48,21 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             expense.amount = amountVal
             expense.date = datePickerDate.date
             expense.occurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex)
+            
+            if switchReminder.isOn {
+                SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, dateTime: datePickerDate.date, eventTitle: expenseName ?? "N/A", notes: textFieldNotes.text ?? "", type: segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex) ?? "One off", inst: self)
+            }
             expense.dueReminder = switchReminder.isOn
+            
             expense.notes = textFieldNotes.text
             expense.category = expenseCategory?.name
             expenseCategory?.addToExpenses(expense)
             SpendAppUtils.managedAppObj.saveContext()
+            
+
+            
             dismiss(animated: true, completion: nil)
+            
             print("Added to \(expense.category ?? "No Exp")")
         } else {
             print("Error Input!")
@@ -70,6 +79,14 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             expense?.date = datePickerDate.date
             expense?.notes = textFieldNotes.text
             expense?.occurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex)
+            
+            if !(expense?.dueReminder ?? false) && switchReminder.isOn {
+                SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, dateTime: datePickerDate.date, eventTitle: expenseName ?? "N/A", notes: textFieldNotes.text ?? "", type: segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex) ?? "One off", inst: self)
+
+            } else if (expense?.dueReminder ?? false) && !(switchReminder.isOn) {
+                // remove event form calender
+            }
+            
             expense?.dueReminder = switchReminder.isOn
             SpendAppUtils.managedAppObj.saveContext()
             dismiss(animated: true, completion: nil)
@@ -78,9 +95,7 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
         }
     }
     @IBAction func switchAddReminderChanged(_ sender: UISwitch) {
-        if let expenseName = textFieldExpenseName.text {
-            SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, dateTime: datePickerDate.date, eventTitle: expenseName)
-        }
+
     }
     
     

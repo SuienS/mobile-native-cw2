@@ -129,6 +129,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         
         if expense.dueReminder{
             cusCell.buttonSetReminder.setTitle("Reminder - ON", for: .normal)
+        }else {
+            cusCell.buttonSetReminder.setTitle("Reminder - OFF", for: .normal)
         }
         
         if cusCell.viewBarChart.layer.sublayers != nil {

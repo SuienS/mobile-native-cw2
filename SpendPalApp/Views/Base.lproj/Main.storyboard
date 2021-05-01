@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" id="5fe-u1-6Wk">
-                                <rect key="frame" x="16" y="50" width="819" height="453"/>
+                                <rect key="frame" x="15" y="50" width="819" height="453"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <segue destination="e7X-ad-qJb" kind="embed" identifier="toCategoryGraphics" id="pOm-LW-rck"/>
                                 </connections>
                             </containerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EdJ-Jd-Ioj">
-                                <rect key="frame" x="16" y="511" width="819" height="309"/>
+                                <rect key="frame" x="15" y="511" width="819" height="309"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cusCellExpense" rowHeight="146" id="dhM-Hu-Ur5" customClass="ExpenseTableViewCell" customModule="SpendPalApp" customModuleProvider="target">
@@ -682,9 +682,6 @@
                             </datePicker>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jdH-m9-dcN">
                                 <rect key="frame" x="423" y="137" width="51" height="31"/>
-                                <connections>
-                                    <action selector="switchAddReminderChanged:" destination="JKm-Nx-mtZ" eventType="valueChanged" id="D4a-Kp-BQb"/>
-                                </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pJ-Ti-uPh">
                                 <rect key="frame" x="413" y="22" width="67" height="28"/>
@@ -990,9 +987,6 @@
                             </datePicker>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kiO-NM-5Ae">
                                 <rect key="frame" x="423" y="137" width="51" height="31"/>
-                                <connections>
-                                    <action selector="switchAddReminderChanged:" destination="4aq-Lb-Jky" eventType="valueChanged" id="sXx-ej-Zov"/>
-                                </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e1l-b5-MTx">
                                 <rect key="frame" x="413" y="22" width="67" height="28"/>

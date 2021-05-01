@@ -18,6 +18,8 @@ class GraphicalDetailsViewController: UIViewController  {
     
     
     @IBOutlet var viewGraphics: UIView!
+    
+    
     var expenseCategory = ""
     var category: Category?
     var dataExpenses: [Decimal] = [1.0]
