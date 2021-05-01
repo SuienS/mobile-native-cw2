@@ -22,6 +22,10 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
     
     var expenseCategory:Category?
     var expense: Expense?
+
+    
+    var expensesViewController: ExpensesViewController?
+    
     
     let reminderSetEventStore = EKEventStore()
     
@@ -64,6 +68,8 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             dismiss(animated: true, completion: nil)
             
             print("Added to \(expense.category ?? "No Exp")")
+//            expensesViewController?.updateGraphics()
+            expensesViewController?.barButtonEditExpense.isEnabled=false
         } else {
             print("Error Input!")
         }
@@ -90,6 +96,10 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             expense?.dueReminder = switchReminder.isOn
             SpendAppUtils.managedAppObj.saveContext()
             dismiss(animated: true, completion: nil)
+            
+//            expensesViewController?.updateGraphics()
+            expensesViewController?.barButtonEditExpense.isEnabled=false
+
         } else {
             print("Error Input!")
         }

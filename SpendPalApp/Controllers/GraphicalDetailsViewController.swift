@@ -35,20 +35,15 @@ class GraphicalDetailsViewController: UIViewController  {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         if let expensesFetch = expensesFetch{
             labelTotalBudget.isHidden = false
             labelTotalSpent.isHidden = false
             labelRemaining.isHidden = false
             labelsGraphicView.forEach{$0.isHidden = false}
             
-            dataCalc(expensesFetch: expensesFetch)
-            
-            labelExCategory.text = expenseCategory
-            labelTotalBudget.text = "\(totalBudget)"
-            labelTotalSpent.text = "\(totalSpent)"
-            labelRemaining.text = "\(remaining)"
+            setDataToUI(expensesFetch: expensesFetch)
 
             SpendAppCustomGraphics.buildPieChartReduced(reduction:4, with: dataPieChart, on: viewGraphics, arcCenter: viewGraphics.center)
         }
@@ -68,6 +63,32 @@ class GraphicalDetailsViewController: UIViewController  {
 
         }
         
+    }
+    
+    func setDataToUI(expensesFetch: [Expense]){
+        dataCalc(expensesFetch: expensesFetch)
+        
+        labelExCategory.text = expenseCategory
+        labelTotalBudget.text = "\(totalBudget)"
+        labelTotalSpent.text = "\(totalSpent)"
+        labelRemaining.text = "\(remaining)"
+    }
+    
+    func updatePieChart() {
+        if let expensesFetch = expensesFetch{
+            viewGraphics.layer.sublayers?.forEach({
+                if $0.isKind(of: CAShapeLayer.self) {
+                    $0.removeFromSuperlayer()
+                }
+            })
+            viewGraphics.layer.sublayers?.forEach({
+                if $0.isKind(of: CAShapeLayer.self) {
+                    $0.removeAllAnimations()
+                }
+            })
+            setDataToUI(expensesFetch: expensesFetch)
+            SpendAppCustomGraphics.buildPieChartReduced(reduction:4, with: dataPieChart, on: viewGraphics, arcCenter: viewGraphics.center)
+        }
     }
 
     

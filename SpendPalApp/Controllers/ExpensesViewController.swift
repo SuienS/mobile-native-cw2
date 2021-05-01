@@ -21,6 +21,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    var graphicsPieViewController: GraphicalDetailsViewController?
+    
     
     var expensesVals: [Decimal] = [0]
     var totalExpensesVal: Decimal = 1.0
@@ -138,6 +140,12 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             cusCell.viewBarChart.layer.sublayers?.forEach({ $0.removeAllAnimations() })
         }
         
+        expenseFetchResController = fetchResultsExpense()
+        expensesVals = expenseFetchResController.fetchedObjects?.map {
+            $0.amount?.decimalValue ?? 0
+        } ?? [0]
+        totalExpensesVal = expensesVals.reduce(0, +)
+        
         //let dataPieChart = expensesFetch.map { $0.amount ?? 0.0 }
         let expenseBarChartData: [Float] = [
             Float(truncating: (expense.amount ?? 0.0)),
@@ -228,6 +236,10 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableViewExpenses.beginUpdates()
+        // Updating the pie chart
+        updateGraphics()
+        barButtonEditExpense.isEnabled = false
+
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
@@ -262,6 +274,15 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     
+    func updateGraphics(){
+        graphicsPieViewController?.category = category
+        graphicsPieViewController?.expensesFetch = fetchResultsExpense().fetchedObjects
+        graphicsPieViewController?.updatePieChart()
+        tableViewExpenses?.reloadData()
+
+    }
+    
+    
     // MARK: - Navigation to Segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -269,16 +290,17 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             switch segueId {
             
             case "toCategoryGraphics":
-                let destViewController = segue.destination as! GraphicalDetailsViewController
+                graphicsPieViewController = segue.destination as? GraphicalDetailsViewController
                 if let category = self.category{
-                    destViewController.category = category
-                    destViewController.expensesFetch = fetchResultsExpense().fetchedObjects
+                    graphicsPieViewController?.category = category
+                    graphicsPieViewController?.expensesFetch = fetchResultsExpense().fetchedObjects
                     barButtonEditExpense.isEnabled = false
                 }
             case "toAddExpense":
                 let destViewController = segue.destination as! AddExpenseViewController
                 if let exCategory = self.category{
                     destViewController.expenseCategory=exCategory
+                    destViewController.expensesViewController = self
                 } else {
                     print("NO")
                 }
@@ -291,6 +313,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
                     if let exCategory = self.category{
                         destViewController.expenseCategory=exCategory
                         destViewController.expense = selectedObj
+                        destViewController.expensesViewController = self
+
                     } else {
                         print("NO")
                     }
@@ -303,5 +327,6 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             
         }
     }
+    
     
 }
