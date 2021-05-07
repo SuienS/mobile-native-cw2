@@ -38,6 +38,7 @@ class AddExCategoryViewController: UIViewController {
             exCategory.monthlyBudget = budgetVal
             exCategory.colour = colourCode
             exCategory.notes = textFieldNotes.text
+            exCategory.profile = SpendAppUtils.profile
             SpendAppUtils.managedAppObj.saveContext()
             dismiss(animated: true, completion: nil)
         } else {

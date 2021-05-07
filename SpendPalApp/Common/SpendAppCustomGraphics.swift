@@ -12,7 +12,7 @@ class SpendAppCustomGraphics: UIView {
     
     static func buildPieChartReduced(reduction:Int, with inData:[Float], on inView:UIView, arcCenter: CGPoint){
         let inDataSorted = Array(inData[1 ..< inData.count].sorted().reversed())
-        
+        print(inDataSorted)
         var processedData: [Float] = []
         
         if inDataSorted.count > reduction {
@@ -171,3 +171,4 @@ class SpendAppCustomGraphics: UIView {
 
 
 }
+
