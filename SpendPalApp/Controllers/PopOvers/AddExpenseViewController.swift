@@ -51,7 +51,7 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
         let strAmountVal = textFieldExpenseAmount.text ?? "0"
         let amountValUnit = SpendAppUtils.toNSDecimal(strAmountVal)
         
-        let amountVal = totalAmountCal(expenseType: eventOccurrence, startDate: datePickerDate.date, unitAmount: amountValUnit)
+        let amountVal = SpendAppUtils.totalAmountCal(expenseType: eventOccurrence, startDate: datePickerDate.date, unitAmount: amountValUnit)
                 
         
         if (expenseName != "") && amountVal.decimalValue >= 0.0 && amountVal.decimalValue < Decimal.greatestFiniteMagnitude{
@@ -66,9 +66,6 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             expense.date = datePickerDate.date
             expense.occurrence = eventOccurrence
             
-            if switchReminder.isOn {
-                SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, dateTime: datePickerDate.date, eventTitle: expenseName ?? "N/A", notes: textFieldNotes.text ?? "", type: segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex) ?? "One off", inst: self)
-            }
             
             expense.dueReminder = switchReminder.isOn
             
@@ -77,6 +74,9 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             expenseCategory?.addToExpenses(expense)
             SpendAppUtils.managedAppObj.saveContext()
             
+            if switchReminder.isOn {
+                SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, expense:expense, inst: expensesViewController)
+            }
 
             
             dismiss(animated: true, completion: nil)
@@ -96,7 +96,7 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
         
         let eventOccurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex) ?? ""
         
-        let expenseAmountVal = totalAmountCal(expenseType: eventOccurrence, startDate: datePickerDate.date, unitAmount: expenseUnitAmountVal)
+        let expenseAmountVal = SpendAppUtils.totalAmountCal(expenseType: eventOccurrence, startDate: datePickerDate.date, unitAmount: expenseUnitAmountVal)
         
         
         if (expenseName != "") && expenseAmountVal.decimalValue >= 0.0 && expenseAmountVal.decimalValue < Decimal.greatestFiniteMagnitude{
@@ -107,15 +107,19 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             expense?.notes = textFieldNotes.text
             expense?.occurrence = eventOccurrence
             
-            if !(expense?.dueReminder ?? false) && switchReminder.isOn {
-                SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, dateTime: datePickerDate.date, eventTitle: expenseName ?? "N/A", notes: textFieldNotes.text ?? "", type: segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex) ?? "One off", inst: self)
+            let dueReminder = expense?.dueReminder ?? false
+            
+            expense?.dueReminder = switchReminder.isOn
+            
+            SpendAppUtils.managedAppObj.saveContext()
+            
+            if !dueReminder && switchReminder.isOn {
+                SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, expense:expense ?? Expense(), inst: expensesViewController)
 
-            } else if (expense?.dueReminder ?? false) && !(switchReminder.isOn) {
+            } else if dueReminder && !(switchReminder.isOn) {
                 // remove event form calender
             }
             
-            expense?.dueReminder = switchReminder.isOn
-            SpendAppUtils.managedAppObj.saveContext()
             dismiss(animated: true, completion: nil)
             
 //            expensesViewController?.updateGraphics()
@@ -134,26 +138,6 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    
-    func totalAmountCal(expenseType: String, startDate: Date, unitAmount: NSDecimalNumber) -> NSDecimalNumber{
-        var calAmount = unitAmount
-        let curCalendar = NSCalendar.current
-        var occurenceCount = 1
-
-        switch expenseType {
-        case "Daily":
-            occurenceCount = curCalendar.dateComponents([.day], from: curCalendar.startOfDay(for: startDate), to: curCalendar.startOfDay(for: startDate.endDateMonth)).day ?? 1
-                        
-        case "Weekly":
-            occurenceCount = Int((curCalendar.dateComponents([.day], from: curCalendar.startOfDay(for: startDate), to: curCalendar.startOfDay(for: startDate.endDateMonth)).day ?? 1) / 7)
-        default:
-            return calAmount
-        }
-        
-        calAmount = NSDecimalNumber(decimal: calAmount as Decimal * Decimal(occurenceCount))
-        return calAmount
-        
-    }
     
     func attemptEditLoad(expense: Expense?) {
         if let expense = expense {

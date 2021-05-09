@@ -110,16 +110,12 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     func buildExpenseCell(_ cusCell: ExpenseTableViewCell, index:IndexPath, withExpense expense: Expense) {
         
         // Highlighing the Due one off Expenses
-        if (expense.date ?? Date()) < Date() {
+        if (expense.date ?? Date()).addingTimeInterval(86400.0) <= Date() {
             cusCell.textFieldExpenseName.text = "[DUE] \(expense.name ?? "N/A")"
             cusCell.textFieldExpenseName.textColor = UIColor.systemRed.withAlphaComponent(0.8)
-            cusCell.buttonCompletePay.isEnabled = true
-            cusCell.buttonCompletePay.setTitleColor(UIColor.systemRed, for: .normal)
         } else {
             cusCell.textFieldExpenseName.text = expense.name ?? "N/A"
             cusCell.textFieldExpenseName.textColor = UIColor.label
-            cusCell.buttonCompletePay.isEnabled = false
-            cusCell.buttonCompletePay.setTitleColor(.none, for: .normal)
         }
         
         
@@ -296,9 +292,26 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @objc func buttonPressedCompletePay(sender: UIButton){
-        let buttonTag = sender.tag
-        print(buttonTag)
+        let completePayButtonTag = sender.tag
+        let payingObj = fetchResultsExpense().object(at: IndexPath.init(row: completePayButtonTag, section: 0))
+        
+        payingObj.date = Date()
+        
+        let eventOccurrence = payingObj.occurrence ?? "One off"
+        
+        let amountValUnit = payingObj.unitAmount ?? 0
+        
+        let amountVal = SpendAppUtils.totalAmountCal(expenseType: eventOccurrence, startDate: payingObj.date ?? Date(), unitAmount: amountValUnit)
+        
+        payingObj.amount = amountVal
+        
+        sender.isEnabled = false
+        SpendAppUtils.managedAppObj.saveContext()
+        updateGraphics()
     }
+    
+    
+
     
     
     // MARK: - Navigation to Segue

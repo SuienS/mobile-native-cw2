@@ -76,10 +76,9 @@ class SpendAppUtils {
         return NSDecimalFormatter.number(from: string) as? NSDecimalNumber ?? 0
     }
     
-    static func attemptToAddSystemCalender( reminderEventStore: EKEventStore, classDelegate: Any?, dateTime: Date, eventTitle: String, notes: String, type: String, inst: Any?) {
+    static func attemptToAddSystemCalender( reminderEventStore: EKEventStore, classDelegate: Any?, expense: Expense, inst: Any?) {
         
         // Handle Permission Request reject
-        // Recurring event
         // Deleting
         
         // Happens safely in a new thread
@@ -88,10 +87,18 @@ class SpendAppUtils {
                 if (permission) && (errorPermission == nil) {
                     let reminderEvent = EKEvent(eventStore: reminderEventStore)
                     
+                    let dateTime = expense.date ?? Date()
+                    let eventTitle = expense.name ?? "N/A"
+                    let expenseAmount = expense.amount ?? 0
+                    let notes = expense.notes ?? ""
+                    let type = expense.occurrence ?? "One off"
+                    
+                    
+                    
                     reminderEvent.title = eventTitle
                     reminderEvent.startDate = dateTime
                     reminderEvent.endDate = dateTime
-                    reminderEvent.notes = notes
+                    reminderEvent.notes = "You have an expense of \(expenseAmount) £ to pay. || Expense Notes: \(notes)"
                     reminderEvent.addAlarm(EKAlarm(relativeOffset: -86400))
                     reminderEvent.addAlarm(EKAlarm(relativeOffset: -3600))
                     
@@ -102,24 +109,17 @@ class SpendAppUtils {
                     reminderEvent.calendar = reminderEventStore.defaultCalendarForNewEvents
                     do {
                         try reminderEventStore.save(reminderEvent, span: .thisEvent)
-                    } catch let error as NSError {
-                        print("Reminder Save Error : \(error)")
+                        showAlertMessage(viewController: inst as! UIViewController, title: "Added to Calender", message: "SpendPalApp successfully added the expense to your Calender.")
+                    } catch {
+                        expense.dueReminder = false
+                        SpendAppUtils.managedAppObj.saveContext()
+                        showAlertMessage(viewController: inst as! UIViewController, title: "Permission Error", message: "Error while saving the event")
                     }
-                    
-//                    let alert = UIAlertController(title: "Alert", message: "Added to Calender App Successfully", preferredStyle: UIAlertController.Style.alert)
-//                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//
-//
-//                    (inst as? UIViewController)?.present(alert, animated: true, completion: nil)
+                } else {
+                    expense.dueReminder = false
+                    SpendAppUtils.managedAppObj.saveContext()
+                    showAlertMessage(viewController: inst as! UIViewController, title: "Permission Error", message: "Allow the permissions for the app to use Calender App in Settings")
 
-
-//                    let calReminderController = EKEventEditViewController()
-//                    calReminderController.event = reminderEvent
-//                    calReminderController.eventStore = reminderEventStore
-//
-//                    calReminderController.editViewDelegate = classDelegate as? EKEventEditViewDelegate
-//                    (classDelegate as? UIViewController)?.present(calReminderController, animated: true, completion: nil)
-                    
                 }
             }
         })
@@ -141,6 +141,38 @@ class SpendAppUtils {
     
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         controller.dismiss(animated: true, completion: nil)
+    }
+    
+    static func showAlertMessage(viewController: UIViewController, title: String, message: String){
+        // create the alert
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+
+        // add an action (button)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+        // show the alert
+        viewController.present(alert, animated: true, completion: nil)
+    }
+    
+    // Pay update of expenses
+    static func totalAmountCal(expenseType: String, startDate: Date, unitAmount: NSDecimalNumber) -> NSDecimalNumber{
+        var calAmount = unitAmount
+        let curCalendar = NSCalendar.current
+        var occurenceCount = 1
+
+        switch expenseType {
+        case "Daily":
+            occurenceCount = curCalendar.dateComponents([.day], from: curCalendar.startOfDay(for: startDate), to: curCalendar.startOfDay(for: startDate.endDateMonth)).day ?? 1
+                        
+        case "Weekly":
+            occurenceCount = Int((curCalendar.dateComponents([.day], from: curCalendar.startOfDay(for: startDate), to: curCalendar.startOfDay(for: startDate.endDateMonth)).day ?? 1) / 7)
+        default:
+            return calAmount
+        }
+        
+        calAmount = NSDecimalNumber(decimal: calAmount as Decimal * Decimal(occurenceCount))
+        return calAmount
+        
     }
 }
 
