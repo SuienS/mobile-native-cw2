@@ -108,7 +108,20 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func buildExpenseCell(_ cusCell: ExpenseTableViewCell, index:IndexPath, withExpense expense: Expense) {
-        cusCell.textFieldExpenseName.text = expense.name ?? "N/A"
+        
+        // Highlighing the Due one off Expenses
+        if (expense.date ?? Date()) < Date() {
+            cusCell.textFieldExpenseName.text = "[DUE] \(expense.name ?? "N/A")"
+            cusCell.textFieldExpenseName.textColor = UIColor.systemRed.withAlphaComponent(0.8)
+            cusCell.buttonCompletePay.isEnabled = true
+            cusCell.buttonCompletePay.setTitleColor(UIColor.systemRed, for: .normal)
+        } else {
+            cusCell.textFieldExpenseName.text = expense.name ?? "N/A"
+            cusCell.textFieldExpenseName.textColor = UIColor.label
+            cusCell.buttonCompletePay.isEnabled = false
+            cusCell.buttonCompletePay.setTitleColor(.none, for: .normal)
+        }
+        
         
         cusCell.textFieldExpenseAmount.text = "\(expense.amount ?? 0)"
         
@@ -125,11 +138,11 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         
         cusCell.textFieldExpenseNotes.text = expense.notes ?? ""
         
-        if expense.dueReminder{
-            cusCell.buttonSetReminder.setTitle("Reminder - ON", for: .normal)
-        }else {
-            cusCell.buttonSetReminder.setTitle("Reminder - OFF", for: .normal)
-        }
+//        if expense.dueReminder{
+//            cusCell.buttonSetReminder.setTitle("Reminder - ON", for: .normal)
+//        }else {
+//            cusCell.buttonSetReminder.setTitle("Reminder - OFF", for: .normal)
+//        }
         
         if cusCell.viewBarChart.layer.sublayers != nil {
             cusCell.viewBarChart.layer.sublayers?.forEach({ $0.removeFromSuperlayer() })
@@ -141,6 +154,10 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             $0.amount?.decimalValue ?? 0
         } ?? [0]
         totalExpensesVal = expensesVals.reduce(0, +)
+        
+        cusCell.buttonCompletePay.addTarget(self, action: #selector(buttonPressedCompletePay(sender:)), for: .touchUpInside)
+        cusCell.buttonCompletePay.tag = index.row
+
         
         //let dataPieChart = expensesFetch.map { $0.amount ?? 0.0 }
         let expenseBarChartData: [Float] = [
@@ -276,6 +293,11 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         graphicsPieViewController?.updatePieChart()
         tableViewExpenses?.reloadData()
 
+    }
+    
+    @objc func buttonPressedCompletePay(sender: UIButton){
+        let buttonTag = sender.tag
+        print(buttonTag)
     }
     
     

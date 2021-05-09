@@ -13,7 +13,7 @@ class ExpenseTableViewCell: UITableViewCell {
     @IBOutlet weak var textFieldExpenseAmount: UILabel!
     @IBOutlet weak var textFieldDateNType: UILabel!
     @IBOutlet weak var viewBarChart: UIView!
-    @IBOutlet weak var buttonSetReminder: UIButton!
+    @IBOutlet weak var buttonCompletePay: UIButton!
     @IBOutlet weak var textFieldExpenseNotes: UILabel!
     
     

@@ -17,10 +17,11 @@
         <attribute name="name" optional="YES" attributeType="String" defaultValueString="Unnamed"/>
         <attribute name="notes" optional="YES" attributeType="String" defaultValueString="-"/>
         <attribute name="occurrence" optional="YES" attributeType="String"/>
+        <attribute name="unitAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <relationship name="assignedCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="expenses" inverseEntity="Category"/>
     </entity>
     <elements>
         <element name="Category" positionX="-296.650146484375" positionY="-7.9422607421875" width="128" height="134"/>
-        <element name="Expense" positionX="-54" positionY="-9" width="128" height="149"/>
+        <element name="Expense" positionX="-54" positionY="-9" width="128" height="164"/>
     </elements>
 </model>
