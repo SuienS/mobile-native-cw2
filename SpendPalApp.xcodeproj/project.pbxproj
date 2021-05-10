@@ -18,6 +18,7 @@
 		34399F84262B2BBE00C39F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34399F83262B2BBE00C39F01 /* Assets.xcassets */; };
 		34399F9B262BE56A00C39F01 /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34399F9A262BE56A00C39F01 /* ExpensesViewController.swift */; };
 		34399FA0262BE75200C39F01 /* ExCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34399F9F262BE75200C39F01 /* ExCategoryTableViewCell.swift */; };
+		345DA7492649954600C5B611 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345DA7482649954600C5B611 /* HelpViewController.swift */; };
 		34836A142645076C002606F9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34836A132645076C002606F9 /* WelcomeViewController.swift */; };
 		34B57A25262E9818004D8FFE /* GraphicalDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B57A24262E9818004D8FFE /* GraphicalDetailsViewController.swift */; };
 		34B57A2A262EDF72004D8FFE /* AddExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B57A29262EDF72004D8FFE /* AddExpenseViewController.swift */; };
@@ -38,6 +39,7 @@
 		34399F9A262BE56A00C39F01 /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		34399F9F262BE75200C39F01 /* ExCategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExCategoryTableViewCell.swift; sourceTree = "<group>"; };
 		34399FA2262C22E100C39F01 /* SpendAppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendAppUtils.swift; sourceTree = "<group>"; };
+		345DA7482649954600C5B611 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		34836A132645076C002606F9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		34B57A24262E9818004D8FFE /* GraphicalDetailsViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = GraphicalDetailsViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		34B57A29262EDF72004D8FFE /* AddExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 			children = (
 				3404441A262D44C8007165D6 /* AddExCategoryViewController.swift */,
 				34B57A29262EDF72004D8FFE /* AddExpenseViewController.swift */,
+				345DA7482649954600C5B611 /* HelpViewController.swift */,
 			);
 			path = PopOvers;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 				34399FA0262BE75200C39F01 /* ExCategoryTableViewCell.swift in Sources */,
 				34399F78262B2BBC00C39F01 /* AppDelegate.swift in Sources */,
 				34836A142645076C002606F9 /* WelcomeViewController.swift in Sources */,
+				345DA7492649954600C5B611 /* HelpViewController.swift in Sources */,
 				34399F9B262BE56A00C39F01 /* ExpensesViewController.swift in Sources */,
 				34B57A2A262EDF72004D8FFE /* AddExpenseViewController.swift in Sources */,
 				34B57A2E262EE951004D8FFE /* ExpenseTableViewCell.swift in Sources */,

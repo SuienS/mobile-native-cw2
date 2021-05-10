@@ -12,12 +12,21 @@ import EventKit
 import EventKitUI
 
 
+enum SpendType {
+    case Category, Expense
+}
+
+
 class SpendAppUtils {
     static var managedAppObjContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     static var managedAppObj = (UIApplication.shared.delegate as! AppDelegate)
     
     static var profile = "Profile_1"
     
+    static var maxBudgetAmount:Decimal = 999999999.0
+    static var minCategoryAmount:Decimal = 10.0
+    static var minExpenseAmount:Decimal = 0.5
+
     static var colourAlpha = CGFloat(0.5)
     
     static let colourCodes = ["Green":
@@ -73,7 +82,13 @@ class SpendAppUtils {
     
     static func toNSDecimal(_ string: String) -> NSDecimalNumber {
         NSDecimalFormatter.generatesDecimalNumbers = true
-        return NSDecimalFormatter.number(from: string) as? NSDecimalNumber ?? 0
+        
+        var decValue: Decimal = (NSDecimalFormatter.number(from: string) as? NSDecimalNumber ?? -1.0) as Decimal
+        var roundedDecimal: Decimal = Decimal()
+        
+        NSDecimalRound(&roundedDecimal, &decValue, 2, .plain)
+        
+        return NSDecimalNumber(decimal: roundedDecimal)
     }
     
     static func attemptToAddSystemCalender( reminderEventStore: EKEventStore, classDelegate: Any?, expense: Expense, inst: Any?) {
@@ -142,6 +157,8 @@ class SpendAppUtils {
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         controller.dismiss(animated: true, completion: nil)
     }
+    
+    
     
     static func showAlertMessage(viewController: UIViewController, title: String, message: String){
         // create the alert

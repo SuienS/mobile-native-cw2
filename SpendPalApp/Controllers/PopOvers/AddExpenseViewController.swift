@@ -33,18 +33,20 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
         super.viewDidLoad()
         attemptEditLoad(expense: expense)
         
-//        textFieldsAll.forEach{txt in
-//            let shortcut : UITextInputAssistantItem = txt.inputAssistantItem
-//            shortcut.leadingBarButtonGroups = []
-//            shortcut.trailingBarButtonGroups = []
-//        }
+        let textFieldsAll = [textFieldNotes,textFieldExpenseName,textFieldExpenseName, textFieldExpenseAmount]
+        
+        textFieldsAll.forEach{txt in
+            let kbItems : UITextInputAssistantItem = txt?.inputAssistantItem ?? UITextInputAssistantItem()
+            kbItems.leadingBarButtonGroups = []
+            kbItems.trailingBarButtonGroups = []
+        }
 
     }
     
     @IBAction func buttonExpenseSavePressed(_ sender: UIButton) {
         
         
-        let expenseName = textFieldExpenseName.text
+        let expenseName = textFieldExpenseName.text ?? ""
         
         let eventOccurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex) ?? ""
         
@@ -54,7 +56,7 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
         let amountVal = SpendAppUtils.totalAmountCal(expenseType: eventOccurrence, startDate: datePickerDate.date, unitAmount: amountValUnit)
                 
         
-        if (expenseName != "") && amountVal.decimalValue >= 0.0 && amountVal.decimalValue < Decimal.greatestFiniteMagnitude{
+        if isValidExpense(expenseName: expenseName, expenseTotAmount: amountVal) {
             
             let expense = Expense(context:SpendAppUtils.managedAppObjContext)
             expense.name = expenseName
@@ -90,7 +92,7 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
     }
     
     @IBAction func buttonExpenseEditPressed(_ sender: UIButton) {
-        let expenseName = textFieldExpenseName.text
+        let expenseName = textFieldExpenseName.text ?? ""
         let expenseAmount = textFieldExpenseAmount.text ?? "0"
         let expenseUnitAmountVal = SpendAppUtils.toNSDecimal(expenseAmount)
         
@@ -98,8 +100,9 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
         
         let expenseAmountVal = SpendAppUtils.totalAmountCal(expenseType: eventOccurrence, startDate: datePickerDate.date, unitAmount: expenseUnitAmountVal)
         
-        
-        if (expenseName != "") && expenseAmountVal.decimalValue >= 0.0 && expenseAmountVal.decimalValue < Decimal.greatestFiniteMagnitude{
+        // BUG when editing
+        if isValidExpense(expenseName: expenseName, expenseTotAmount: expenseAmountVal) {
+            
             expense?.name = expenseName
             expense?.amount = expenseAmountVal
             expense?.unitAmount = expenseUnitAmountVal
@@ -129,10 +132,8 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             print("Error Input!")
         }
     }
-    @IBAction func switchAddReminderChanged(_ sender: UISwitch) {
 
-    }
-    
+        
     
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         controller.dismiss(animated: true, completion: nil)
@@ -152,6 +153,41 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
 
         }
     }
+    
+    // MARK: - Validation Function
+    
+    func isValidExpense(expenseName: String, expenseTotAmount: NSDecimalNumber) -> Bool {
+        let isValidated = true
+        if (expenseName == ""){
+            SpendAppUtils.showAlertMessage(viewController: self, title: "Input Error", message: "Please enter a Name for the expense")
+            return false
+        }
+        
+        if expenseTotAmount.decimalValue <= SpendAppUtils.minExpenseAmount || expenseTotAmount.decimalValue > SpendAppUtils.maxBudgetAmount{
+            SpendAppUtils.showAlertMessage(viewController: self, title: "Input Error", message: "Expense amount is not within the valid range")
+            return false
+        }
+        
+        var remainingAmount = expensesViewController!.graphicsPieViewController?.remaining ?? 0.0
+        
+        if let expense = expense {
+            let expenseAmountVal = SpendAppUtils.totalAmountCal(expenseType: expense.occurrence ?? "", startDate: expense.date ?? Date(), unitAmount: expense.amount ?? 0)
+            
+            remainingAmount += expenseAmountVal as Decimal
+        }
+        
+        print("Validation: \(remainingAmount)")
+        
+        if remainingAmount < expenseTotAmount as Decimal {
+            SpendAppUtils.showAlertMessage(viewController: self, title: "Input Error", message: "Expense amount exceeds the allocated budget for the Category")
+            return false
+        }
+        
+        return isValidated
+    }
+    
+    
+    
 }
 
 extension Date {
