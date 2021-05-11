@@ -1,3 +1,9 @@
+/**
+ Author      : Rammuni Ravidu Suien Silva
+ UoW No   : 16267097 || IIT No: 2016134
+ Mobile Native Development - Coursework 2
+ */
+
 //
 //  HelpViewController.swift
 //  SpendPalApp
@@ -21,6 +27,5 @@ class HelpViewController: UIViewController {
             }
         }
     }
-    
 
 }

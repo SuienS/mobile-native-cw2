@@ -1,3 +1,10 @@
+/**
+ Author      : Rammuni Ravidu Suien Silva
+ UoW No   : 16267097 || IIT No: 2016134
+ Mobile Native Development - Coursework 2
+ 
+ File Desc: ViewController for Add Category Add/Edit Popover
+ */
 //
 //  AddExCategoryViewController.swift
 //  SpendPalApp
@@ -16,6 +23,8 @@ class AddExCategoryViewController: UIViewController {
     
     
     @IBOutlet weak var segmentedControlColourCode: UISegmentedControl!
+    
+    // Default colour
     var colourCode: String = "Green"
     
     var expenseCategory: Category?
@@ -25,8 +34,8 @@ class AddExCategoryViewController: UIViewController {
         attemptEditLoad(category: expenseCategory)
         valueChangedSegControlColourCode(self.segmentedControlColourCode)
         
+        // Removing the toolbar of the built in keyboard
         let textFieldsAll = [textFieldCategoryName,textFieldBudget,textFieldNotes]
-        
         textFieldsAll.forEach{txt in
             let kbItems : UITextInputAssistantItem = txt?.inputAssistantItem ?? UITextInputAssistantItem()
             kbItems.leadingBarButtonGroups = []
@@ -35,20 +44,28 @@ class AddExCategoryViewController: UIViewController {
         
     }
     
+    
+    // MARK: - Action Handles
+    
+    // Saving the inserted data into the CoreData
     @IBAction func buttonCategorySavePressed(_ sender: UIButton) {
 
         let categoryName = textFieldCategoryName.text ?? ""
         let strBudgetVal = textFieldBudget.text ?? "0"
         let budgetVal = SpendAppUtils.toNSDecimal(strBudgetVal)
-        if isValidExCategory(categoryName: categoryName, categoryAmount: budgetVal){
         
+        // Validation of the inputs
+        if isValidExCategory(categoryName: categoryName, categoryAmount: budgetVal){
             let exCategory = Category(context:SpendAppUtils.managedAppObjContext)
             exCategory.name = categoryName
             exCategory.monthlyBudget = budgetVal
             exCategory.colour = colourCode
             exCategory.notes = textFieldNotes.text
             exCategory.profile = SpendAppUtils.profile
+            
+            // Saving Data to CoreData
             SpendAppUtils.managedAppObj.saveContext()
+            
             dismiss(animated: true, completion: nil)
         } else {
             print("Error Input!")
@@ -56,30 +73,30 @@ class AddExCategoryViewController: UIViewController {
         
     }
     
+    // Saving the editted data into the CoreData
     @IBAction func buttonCategoryEditPressed(_ sender: UIButton) {
-//        expenseCategory?.name = textFieldCategoryName.text
-//        expenseCategory?.monthlyBudget = textFieldBudget.text
-//        expenseCategory?.colour = colourCode
-//        expenseCategory?.notes = textFieldNotes.text
-//        SpendAppUtils.managedAppObj.saveContext()
-//        dismiss(animated: true, completion: nil)
         
         let categoryName = textFieldCategoryName.text ?? ""
         let strBudgetVal = textFieldBudget.text ?? "0"
         let budgetVal = SpendAppUtils.toNSDecimal(strBudgetVal)
+        
+        // Validation
         if isValidExCategory(categoryName: categoryName, categoryAmount: budgetVal){
             expenseCategory?.name = categoryName
             expenseCategory?.monthlyBudget = budgetVal
             expenseCategory?.colour = colourCode
             expenseCategory?.notes = textFieldNotes.text
+            
+            // Saving to CoreData
             SpendAppUtils.managedAppObj.saveContext()
+            
             dismiss(animated: true, completion: nil)
         } else {
             print("Error Input!")
         }
     }
     
-    
+    // Colour code for Category
     @IBAction func valueChangedSegControlColourCode(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -111,6 +128,9 @@ class AddExCategoryViewController: UIViewController {
         }
     }
     
+    // MARK: - Utility Functions
+    
+    // Check whether the used tries to edit
     func attemptEditLoad(category: Category?) {
         if let category = category {
             textFieldCategoryName.text = category.name
@@ -121,8 +141,9 @@ class AddExCategoryViewController: UIViewController {
     }
     
     
-    // MARK: - Validation Function
+    // MARK: - Validations
     
+    // Function for all the validations related to adding a new Category
     func isValidExCategory(categoryName: String, categoryAmount: NSDecimalNumber) -> Bool {
         let isValidated = true
         if (categoryName == ""){
@@ -130,6 +151,7 @@ class AddExCategoryViewController: UIViewController {
             return false
         }
         
+        // Limiting the budget amounts
         if categoryAmount.decimalValue <= SpendAppUtils.minCategoryAmount || categoryAmount.decimalValue > SpendAppUtils.maxBudgetAmount{
             SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Expense Category amount is not within the valid range")
             return false

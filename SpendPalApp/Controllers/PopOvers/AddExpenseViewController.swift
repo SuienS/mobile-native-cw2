@@ -1,3 +1,10 @@
+/**
+ Author      : Rammuni Ravidu Suien Silva
+ UoW No   : 16267097 || IIT No: 2016134
+ Mobile Native Development - Coursework 2
+ 
+ File Desc: ViewController for Add Expense Add/Edit Popover
+ */
 //
 //  AddExpenseViewController.swift
 //  SpendPalApp
@@ -22,8 +29,6 @@ class AddExpenseViewController: UIViewController {
     
     var expenseCategory:Category?
     var expense: Expense?
-
-    
     var expensesViewController: ExpensesViewController?
     
     
@@ -33,8 +38,8 @@ class AddExpenseViewController: UIViewController {
         super.viewDidLoad()
         attemptEditLoad(expense: expense)
         
+        // Removing the toolbar of the built in keyboard
         let textFieldsAll = [textFieldNotes,textFieldExpenseName,textFieldExpenseName, textFieldExpenseAmount]
-        
         textFieldsAll.forEach{txt in
             let kbItems : UITextInputAssistantItem = txt?.inputAssistantItem ?? UITextInputAssistantItem()
             kbItems.leadingBarButtonGroups = []
@@ -43,64 +48,58 @@ class AddExpenseViewController: UIViewController {
 
     }
     
+    
+    // MARK: - Action Handles
+
+    // Saving inst
     @IBAction func buttonExpenseSavePressed(_ sender: UIButton) {
         
-        
+        // Saving the inserted data into the CoreData
         let expenseName = textFieldExpenseName.text ?? ""
-        
         let eventOccurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex) ?? ""
-        
         let strAmountVal = textFieldExpenseAmount.text ?? "0"
         let amountValUnit = SpendAppUtils.toNSDecimal(strAmountVal)
-        
         let amountVal = SpendAppUtils.totalAmountCal(expenseType: eventOccurrence, startDate: datePickerDate.date, unitAmount: amountValUnit)
                 
-        
+        // Validation of the inputs
         if isValidExpense(expenseName: expenseName, expenseTotAmount: amountVal) {
             
             let expense = Expense(context:SpendAppUtils.managedAppObjContext)
             expense.name = expenseName
-            
-            
             expense.amount = amountVal
             expense.unitAmount = amountValUnit
-            
             expense.date = datePickerDate.date
             expense.occurrence = eventOccurrence
-            
-            
             expense.dueReminder = switchReminder.isOn
-            
             expense.notes = textFieldNotes.text
             expense.category = expenseCategory?.name
             expenseCategory?.addToExpenses(expense)
+            
+            // Saving Data to CoreData
             SpendAppUtils.managedAppObj.saveContext()
             
             if switchReminder.isOn {
                 SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, expense:expense, inst: expensesViewController)
             }
 
-            
             dismiss(animated: true, completion: nil)
             
-            print("Added to \(expense.category ?? "No Exp")")
-//            expensesViewController?.updateGraphics()
             expensesViewController?.barButtonEditExpense.isEnabled=false
         } else {
             print("Error Input!")
         }
     }
     
+    // Saving the editted data into the CoreData
     @IBAction func buttonExpenseEditPressed(_ sender: UIButton) {
+        
         let expenseName = textFieldExpenseName.text ?? ""
         let expenseAmount = textFieldExpenseAmount.text ?? "0"
         let expenseUnitAmountVal = SpendAppUtils.toNSDecimal(expenseAmount)
-        
         let eventOccurrence = segControllerOccurence.titleForSegment(at: segControllerOccurence.selectedSegmentIndex) ?? ""
-        
         let expenseAmountVal = SpendAppUtils.totalAmountCal(expenseType: eventOccurrence, startDate: datePickerDate.date, unitAmount: expenseUnitAmountVal)
         
-        // BUG when editing
+        // Validation
         if isValidExpense(expenseName: expenseName, expenseTotAmount: expenseAmountVal) {
             
             expense?.name = expenseName
@@ -111,29 +110,30 @@ class AddExpenseViewController: UIViewController {
             expense?.occurrence = eventOccurrence
             
             let dueReminder = expense?.dueReminder ?? false
-            
             expense?.dueReminder = switchReminder.isOn
             
+            //Saving to CoreData
             SpendAppUtils.managedAppObj.saveContext()
             
+            //Check whether the Reminder value has been editted
             if !dueReminder && switchReminder.isOn {
                 SpendAppUtils.attemptToAddSystemCalender(reminderEventStore: reminderSetEventStore, classDelegate: self, expense:expense ?? Expense(), inst: expensesViewController)
 
             } else if dueReminder && !(switchReminder.isOn) {
-                // remove event form calender
+                // remove event form calender [NI]
             }
             
             dismiss(animated: true, completion: nil)
             
-//            expensesViewController?.updateGraphics()
             expensesViewController?.barButtonEditExpense.isEnabled=false
-
         } else {
             print("Error Input!")
         }
     }
     
-    
+    // MARK: - Utility Functions
+
+    // Check whether the used tries to edit
     func attemptEditLoad(expense: Expense?) {
         if let expense = expense {
             textFieldExpenseName.text = expense.name
@@ -143,20 +143,22 @@ class AddExpenseViewController: UIViewController {
             switchReminder.isOn = expense.dueReminder
             
             segControllerOccurence.selectedSegmentIndex = SpendAppUtils.eventTypesIndex[expense.occurrence ?? "One off"] ?? 0
-            
 
         }
     }
     
-    // MARK: - Validation Function
+    // MARK: - Validations
     
+    // Function for all the validations related to adding a new Expense
     func isValidExpense(expenseName: String, expenseTotAmount: NSDecimalNumber) -> Bool {
+        
         let isValidated = true
         if (expenseName == ""){
             SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Please enter a Name for the expense")
             return false
         }
         
+        // Limiting budget amounts
         if expenseTotAmount.decimalValue <= SpendAppUtils.minExpenseAmount || expenseTotAmount.decimalValue > SpendAppUtils.maxBudgetAmount{
             SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Expense amount is not within the valid range")
             return false
@@ -164,14 +166,13 @@ class AddExpenseViewController: UIViewController {
         
         var remainingAmount = expensesViewController!.graphicsPieViewController?.remaining ?? 0.0
         
+        // Re calulating remaining amount for when Editting
         if let expense = expense {
             let expenseAmountVal = SpendAppUtils.totalAmountCal(expenseType: expense.occurrence ?? "", startDate: expense.date ?? Date(), unitAmount: expense.amount ?? 0)
-            
             remainingAmount += expenseAmountVal as Decimal
         }
-        
-        print("Validation: \(remainingAmount)")
-        
+              
+        // Check for sufficient budgets
         if remainingAmount < expenseTotAmount as Decimal {
             SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Expense amount exceeds the allocated budget for the Category")
             return false
@@ -184,17 +185,20 @@ class AddExpenseViewController: UIViewController {
     
 }
 
+// MARK: - Extenstions
+
+// Extention for Date to get the end date of the month
 extension Date {
 
+    // End day of the month
     var endDateMonth: Date {
-        
         let curCalendar = Calendar(identifier: .gregorian)
         let comps = curCalendar.dateComponents([.year, .month], from: self)
         let startMonth = curCalendar.date(from: comps)!
         
         var dateComps = DateComponents()
         dateComps.month = 1
-        //dateComps.second = -1
+        
         return Calendar(identifier: .gregorian).date(byAdding: dateComps, to: startMonth)!
     }
 }

@@ -1,3 +1,10 @@
+/**
+ Author      : Rammuni Ravidu Suien Silva
+ UoW No   : 16267097 || IIT No: 2016134
+ Mobile Native Development - Coursework 2
+ 
+ File Desc: ViewController for Welcome Page
+ */
 //
 //  WelcomeViewController.swift
 //  SpendPalApp
@@ -11,17 +18,15 @@ class WelcomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
 
-    
-    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier {
+            
+            // Setting the profile accordigly
             switch segueId {
             case "toSplitViewFromProf_1":
                 SpendAppUtils.profile = "Profile_1"

@@ -1,3 +1,10 @@
+/**
+ Author      : Rammuni Ravidu Suien Silva
+ UoW No   : 16267097 || IIT No: 2016134
+ Mobile Native Development - Coursework 2
+ 
+ File Desc: TableViewController for Expenses
+ */
 //
 //  ExpensesViewController.swift
 //  SpendPalApp
@@ -14,7 +21,6 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var barButtonAddExpense: UIBarButtonItem!
     @IBOutlet weak var barButtonEditExpense: UIBarButtonItem!
     
-    // TODO - SETTERS AND GETTERS
     var category: Category? {
         didSet {
             barButtonAddExpense.isEnabled = true
@@ -23,15 +29,11 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     
     var graphicsPieViewController: GraphicalDetailsViewController?
     
-    
     var expensesVals: [Decimal] = [0]
     var totalExpensesVal: Decimal = 1.0
     
-    //var _appFetchedResultsController: NSFetchedResultsController<Expense>? = nil
-    
+    // Fetched results
     var expenseFetchResController: NSFetchedResultsController<Expense> = NSFetchedResultsController<Expense>()
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,6 +110,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         barButtonEditExpense.isEnabled = true
     }
     
+    // Building the Custom Cell
     func buildExpenseCell(_ cusCell: ExpenseTableViewCell, index:IndexPath, withExpense expense: Expense) {
         
         // Highlighing the Due one off Expenses
@@ -119,7 +122,6 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             cusCell.textFieldExpenseName.textColor = UIColor.label
         }
         
-        
         cusCell.textFieldExpenseAmount.text = "\(expense.amount ?? 0)"
         
         
@@ -130,16 +132,9 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         formatedDate.dateFormat = "yyyy-MM-dd' at 'HH:mm"
         
         let strDate = formatedDate.string(from: expense.date ?? Date.distantPast)
-        
         cusCell.textFieldDateNType.text = "\(strDate) - \(expense.occurrence ?? "N/A")"
         
         cusCell.textFieldExpenseNotes.text = expense.notes ?? ""
-        
-//        if expense.dueReminder{
-//            cusCell.buttonSetReminder.setTitle("Reminder - ON", for: .normal)
-//        }else {
-//            cusCell.buttonSetReminder.setTitle("Reminder - OFF", for: .normal)
-//        }
         
         if cusCell.viewBarChart.layer.sublayers != nil {
             cusCell.viewBarChart.layer.sublayers?.forEach({ $0.removeFromSuperlayer() })
@@ -155,20 +150,20 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         cusCell.buttonCompletePay.addTarget(self, action: #selector(buttonPressedCompletePay(sender:)), for: .touchUpInside)
         cusCell.buttonCompletePay.tag = index.row
 
-        
-        //let dataPieChart = expensesFetch.map { $0.amount ?? 0.0 }
+
         let expenseBarChartData: [Float] = [
             Float(truncating: (expense.amount ?? 0.0)),
             Float(truncating: totalExpensesVal as NSNumber)
         ]
         
+        // Building the Bar chart on cell
         SpendAppCustomGraphics.buildBarChart(with: expenseBarChartData, on: cusCell.viewBarChart, origin: CGPoint(x: 0,y: cusCell.viewBarChart.frame.height/4), colour: SpendAppCustomGraphics.getBarChartColour(index: index.row))
         
     }
 
     
     
-    // MARK: - Expense Category Fet. Res. Controller
+    // MARK: - Expense Fetch Results
     
     func fetchResultsExpense() -> NSFetchedResultsController<Expense>{
         
@@ -177,9 +172,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         // Batch size
         fetchRequest.fetchBatchSize = 20
         
-        // Sorting; There's no ordering in CoreData. Hence SortDescriptor is what creates the order
+        // Sorting
         let sortDescriptor = NSSortDescriptor(key: "amount", ascending: false)
-        
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         // Predicate to filter assignedCategory
@@ -203,48 +197,11 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         
         return aFetchedResultsController
     }
-    
-    
-    //    var expenseFetchResController: NSFetchedResultsController<Expense> {
-    //        if _appFetchedResultsController != nil {
-    //            return _appFetchedResultsController!
-    //        }
-    //
-    //        let fetchRequest: NSFetchRequest<Expense> = Expense.fetchRequest()
-    //
-    //        // Batch size
-    //        fetchRequest.fetchBatchSize = 20
-    //
-    //        // Sorting; There's no ordering in CoreData. Hence SortDescriptor is what creates the order
-    //        let sortDescriptor = NSSortDescriptor(key: "name", ascending: false)
-    //
-    //        fetchRequest.sortDescriptors = [sortDescriptor]
-    //
-    //        // Predicate to filter assignedCategory
-    //        if let expenseCategory = self.expenseCategory {
-    //            let predicateExpense = NSPredicate(format: "assignedCategory = %@", expenseCategory)
-    //            fetchRequest.predicate = predicateExpense
-    //        } else {
-    //            print("No Expense Category")
-    //            return NSFetchedResultsController<Expense>()
-    //        }
-    //
-    //        let aFetchedResultsController = NSFetchedResultsController<Expense>(fetchRequest: fetchRequest, managedObjectContext: SpendAppUtils.managedAppObjContext, sectionNameKeyPath: #keyPath(Expense.category), cacheName: nil)
-    //        aFetchedResultsController.delegate = self
-    //        _appFetchedResultsController = aFetchedResultsController
-    //
-    //        do {
-    //            try _appFetchedResultsController!.performFetch()
-    //        } catch {
-    //             let nserror = error as NSError
-    //             fatalError("Unable to Fetch Data \(nserror), \(nserror.userInfo)")
-    //        }
-    //        //print(_appFetchedResultsController!.fetchedObjects ?? "No Res")
-    //        return _appFetchedResultsController ?? NSFetchedResultsController<Expense>()
-    //    }
-    
+
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+        //Synchroncing Data
         tableViewExpenses.beginUpdates()
         // Updating the pie chart
         updateGraphics()
@@ -283,7 +240,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         tableViewExpenses.endUpdates()
     }
     
-    
+    // Updating the data on the UI
     func updateGraphics(){
         graphicsPieViewController?.category = category
         graphicsPieViewController?.expensesFetch = fetchResultsExpense().fetchedObjects
@@ -292,6 +249,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
 
     }
     
+    
+    // 'Complete Payement' button action
     @objc func buttonPressedCompletePay(sender: UIButton){
         let completePayButtonTag = sender.tag
         let payingObj = fetchResultsExpense().object(at: IndexPath.init(row: completePayButtonTag, section: 0))
@@ -299,11 +258,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
         payingObj.date = Date()
         
         let eventOccurrence = payingObj.occurrence ?? "One off"
-        
         let amountValUnit = payingObj.unitAmount ?? 0
-        
         let amountVal = SpendAppUtils.totalAmountCal(expenseType: eventOccurrence, startDate: payingObj.date ?? Date(), unitAmount: amountValUnit)
-        
         payingObj.amount = amountVal
         
         sender.isEnabled = false
@@ -312,15 +268,14 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     
-
-    
-    
     // MARK: - Navigation to Segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier {
-            switch segueId {
             
+            // Handling Multiple segues
+            switch segueId {
+            // Displaying Charts
             case "toCategoryGraphics":
                 graphicsPieViewController = segue.destination as? GraphicalDetailsViewController
                 if let category = self.category{
@@ -328,6 +283,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
                     graphicsPieViewController?.expensesFetch = fetchResultsExpense().fetchedObjects
                     barButtonEditExpense.isEnabled = false
                 }
+                
+            // Add Expense popover
             case "toAddExpense":
                 let destViewController = segue.destination as! AddExpenseViewController
                 if let exCategory = self.category{
@@ -336,6 +293,8 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
                 } else {
                     print("NO")
                 }
+                
+            // Edit Expense popover
             case "toEditExpense":
                 if let selectedIndex = tableViewExpenses.indexPathForSelectedRow {
                     barButtonEditExpense.isEnabled = true
@@ -346,11 +305,9 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
                         destViewController.expenseCategory=exCategory
                         destViewController.expense = selectedObj
                         destViewController.expensesViewController = self
-
                     } else {
                         print("NO")
                     }
-
                 }
                 
             default:
@@ -359,6 +316,5 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             
         }
     }
-    
     
 }
