@@ -12,7 +12,6 @@ class HelpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     @IBAction func setttingsButtonPressed(_ sender: UIButton) {
         // Directs to the main "Settings" App's relavant sub-section

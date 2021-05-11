@@ -126,12 +126,12 @@ class AddExCategoryViewController: UIViewController {
     func isValidExCategory(categoryName: String, categoryAmount: NSDecimalNumber) -> Bool {
         let isValidated = true
         if (categoryName == ""){
-            SpendAppUtils.showAlertMessage(viewController: self, title: "Input Error", message: "Please enter a Name for the Expense Category")
+            SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Please enter a Name for the Expense Category")
             return false
         }
         
         if categoryAmount.decimalValue <= SpendAppUtils.minCategoryAmount || categoryAmount.decimalValue > SpendAppUtils.maxBudgetAmount{
-            SpendAppUtils.showAlertMessage(viewController: self, title: "Input Error", message: "Expense Category amount is not within the valid range")
+            SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Expense Category amount is not within the valid range")
             return false
         }
 

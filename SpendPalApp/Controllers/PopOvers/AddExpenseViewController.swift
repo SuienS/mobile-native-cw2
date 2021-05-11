@@ -9,7 +9,7 @@ import UIKit
 import EventKit
 import EventKitUI
 
-class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
+class AddExpenseViewController: UIViewController {
     
 
     @IBOutlet weak var textFieldExpenseName: UITextField!
@@ -132,12 +132,6 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
             print("Error Input!")
         }
     }
-
-        
-    
-    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
-        controller.dismiss(animated: true, completion: nil)
-    }
     
     
     func attemptEditLoad(expense: Expense?) {
@@ -159,12 +153,12 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
     func isValidExpense(expenseName: String, expenseTotAmount: NSDecimalNumber) -> Bool {
         let isValidated = true
         if (expenseName == ""){
-            SpendAppUtils.showAlertMessage(viewController: self, title: "Input Error", message: "Please enter a Name for the expense")
+            SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Please enter a Name for the expense")
             return false
         }
         
         if expenseTotAmount.decimalValue <= SpendAppUtils.minExpenseAmount || expenseTotAmount.decimalValue > SpendAppUtils.maxBudgetAmount{
-            SpendAppUtils.showAlertMessage(viewController: self, title: "Input Error", message: "Expense amount is not within the valid range")
+            SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Expense amount is not within the valid range")
             return false
         }
         
@@ -179,7 +173,7 @@ class AddExpenseViewController: UIViewController, EKEventEditViewDelegate {
         print("Validation: \(remainingAmount)")
         
         if remainingAmount < expenseTotAmount as Decimal {
-            SpendAppUtils.showAlertMessage(viewController: self, title: "Input Error", message: "Expense amount exceeds the allocated budget for the Category")
+            SpendAppUtils.showAlertMessage(activeVC: self, title: "Input Error", message: "Expense amount exceeds the allocated budget for the Category")
             return false
         }
         

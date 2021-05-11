@@ -1,10 +1,17 @@
+/**
+ Author       : Rammuni Ravidu Suien Silva
+ UoW No   : 16267097 || IIT No: 2016134
+ Mobile Native Development - Coursework 2
+ 
+ File Desc: This file will contain all the utility Methods and static variables used throughout the app
+ */
+
 //
 //  SpendAppUtils.swift
 //  SpendPalApp
 //
 //  Created by Rammuni Ravidu Suien Silva on 2021-04-18.
 //
-// This file will contain all the utility Methods for the app
 
 import Foundation
 import UIKit
@@ -18,17 +25,25 @@ enum SpendType {
 
 
 class SpendAppUtils {
+    
+    // MARK: - Static constants
+    
+    // Handle to the App object
     static var managedAppObjContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     static var managedAppObj = (UIApplication.shared.delegate as! AppDelegate)
     
+    // Current profile; default is set to 1
     static var profile = "Profile_1"
     
+    // Acceptable range for input financial amounts
     static var maxBudgetAmount:Decimal = 999999999.0
     static var minCategoryAmount:Decimal = 10.0
     static var minExpenseAmount:Decimal = 0.5
 
+    // Colour transparency
     static var colourAlpha = CGFloat(0.5)
     
+    // Colour codes used in the app
     static let colourCodes = ["Green":
                                 UIColor.systemGreen.withAlphaComponent(colourAlpha),
                               "Blue":
@@ -51,9 +66,6 @@ class SpendAppUtils {
                                   "Daily": 1,
                                   "Weekly":2,
                                   "Monthly":3] as [String : Int]
-    
-    
-    static let NSDecimalFormatter = NumberFormatter()
     
     static func getCodeColour(_ strColour: String) -> UIColor{
         
@@ -79,7 +91,13 @@ class SpendAppUtils {
     }
 
     
+    // Convertion from String to Decimal with two decimal point rounding
+    static let NSDecimalFormatter = NumberFormatter()
     
+
+    // MARK: - Utility functions
+    
+    // Convertion from String to Decimal with two decimal point rounding
     static func toNSDecimal(_ string: String) -> NSDecimalNumber {
         NSDecimalFormatter.generatesDecimalNumbers = true
         
@@ -91,10 +109,8 @@ class SpendAppUtils {
         return NSDecimalNumber(decimal: roundedDecimal)
     }
     
+    // Adding reminders to System Calender App
     static func attemptToAddSystemCalender( reminderEventStore: EKEventStore, classDelegate: Any?, expense: Expense, inst: Any?) {
-        
-        // Handle Permission Request reject
-        // Deleting
         
         // Happens safely in a new thread
         reminderEventStore.requestAccess( to: EKEntityType.event, completion:{(permission, errorPermission) in
@@ -108,38 +124,43 @@ class SpendAppUtils {
                     let notes = expense.notes ?? ""
                     let type = expense.occurrence ?? "One off"
                     
-                    
-                    
-                    reminderEvent.title = eventTitle
+                    // Setting reminder details
+                    reminderEvent.title = "Payment: \(eventTitle)"
                     reminderEvent.startDate = dateTime
                     reminderEvent.endDate = dateTime
                     reminderEvent.notes = "You have an expense of \(expenseAmount) £ to pay. || Expense Notes: \(notes)"
                     reminderEvent.addAlarm(EKAlarm(relativeOffset: -86400))
                     reminderEvent.addAlarm(EKAlarm(relativeOffset: -3600))
                     
+                    // Handling recurent events
                     if type != "One off" {
                         reminderEvent.recurrenceRules = [getRecurrenceEventRule(expenseType :type)]
                     }
                     
                     reminderEvent.calendar = reminderEventStore.defaultCalendarForNewEvents
+                    
+                    // Attempt saving to the system calender app
                     do {
                         try reminderEventStore.save(reminderEvent, span: .thisEvent)
-                        showAlertMessage(viewController: inst as! UIViewController, title: "Added to Calender", message: "SpendPalApp successfully added the expense to your Calender.")
+                        showAlertMessage(activeVC: inst as! UIViewController, title: "Added to Calender", message: "SpendPalApp successfully added the expense to your Calender.")
                     } catch {
+                        // Unexected Save Error
                         expense.dueReminder = false
                         SpendAppUtils.managedAppObj.saveContext()
-                        showAlertMessage(viewController: inst as! UIViewController, title: "Permission Error", message: "Error while saving the event")
+                        showAlertMessage(activeVC: inst as! UIViewController, title: "Unexpected Error", message: "Error while saving the event")
                     }
                 } else {
+                    // No Permission error
                     expense.dueReminder = false
                     SpendAppUtils.managedAppObj.saveContext()
-                    showAlertMessage(viewController: inst as! UIViewController, title: "Permission Error", message: "Allow the permissions for the app to use Calender App in Settings")
+                    showAlertMessage(activeVC: inst as! UIViewController, title: "Permission Error", message: "Allow the permissions for the app to use Calender App in Settings")
 
                 }
             }
         })
     }
     
+    // Recuurence rule genrator
     static func getRecurrenceEventRule(expenseType :String) -> EKRecurrenceRule{
         switch expenseType {
         case "Daily":
@@ -154,24 +175,17 @@ class SpendAppUtils {
         
     }
     
-    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
-        controller.dismiss(animated: true, completion: nil)
+    // App notification alert dialogue
+    static func showAlertMessage(activeVC: UIViewController, title: String, message: String){
+        let messageAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+
+        // Action Button
+        messageAlert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+        activeVC.present(messageAlert, animated: true, completion: nil)
     }
     
-    
-    
-    static func showAlertMessage(viewController: UIViewController, title: String, message: String){
-        // create the alert
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-
-        // add an action (button)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-
-        // show the alert
-        viewController.present(alert, animated: true, completion: nil)
-    }
-    
-    // Pay update of expenses
+    // Pay status update of expenses
     static func totalAmountCal(expenseType: String, startDate: Date, unitAmount: NSDecimalNumber) -> NSDecimalNumber{
         var calAmount = unitAmount
         let curCalendar = NSCalendar.current
@@ -194,15 +208,16 @@ class SpendAppUtils {
 }
 
 
+// MARK: - Extensions
 
+// Element Update animation extension
 extension UIView {
     func fadeUpdateTransition(_ animDuration:CFTimeInterval) {
-        let updateAnimation = CATransition()
-        updateAnimation.timingFunction = CAMediaTimingFunction(name:
-                                                                CAMediaTimingFunctionName.easeInEaseOut)
-        updateAnimation.type = CATransitionType.fade
-        updateAnimation.duration = animDuration
-        layer.add(updateAnimation, forKey: CATransitionType.fade.rawValue)
+        let updateFadeAnimation = CATransition()
+        updateFadeAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        updateFadeAnimation.type = CATransitionType.fade
+        updateFadeAnimation.duration = animDuration
+        layer.add(updateFadeAnimation, forKey: CATransitionType.fade.rawValue)
     }
 }
 
