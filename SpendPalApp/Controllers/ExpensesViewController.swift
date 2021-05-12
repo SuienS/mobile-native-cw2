@@ -153,7 +153,7 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
 
         let expenseBarChartData: [Float] = [
             Float(truncating: (expense.amount ?? 0.0)),
-            Float(truncating: totalExpensesVal as NSNumber)
+            Float(truncating: (category?.monthlyBudget ?? 1.0) as NSNumber)
         ]
         
         // Building the Bar chart on cell
