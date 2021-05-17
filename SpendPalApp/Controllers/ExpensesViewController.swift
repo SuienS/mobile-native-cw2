@@ -156,6 +156,12 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             Float(truncating: (category?.monthlyBudget ?? 1.0) as NSNumber)
         ]
         
+        if (expense.occurrence ?? "One off") == "One off" {
+            cusCell.buttonCompletePay.isHidden = true
+        } else {
+            cusCell.buttonCompletePay.isHidden = false
+        }
+        
         // Building the Bar chart on cell
         SpendAppCustomGraphics.buildBarChart(with: expenseBarChartData, on: cusCell.viewBarChart, origin: CGPoint(x: 0,y: cusCell.viewBarChart.frame.height/4), colour: SpendAppCustomGraphics.getBarChartColour(index: index.row))
         

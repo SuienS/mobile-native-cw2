@@ -39,8 +39,8 @@ class ExCategoriesTableViewController: UITableViewController, NSFetchedResultsCo
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         sortDescriptor = sortDescriptorClickFrequency
         fetchedResultsCategory = fetchResultsCategory(sortWith: sortDescriptor)
     }
