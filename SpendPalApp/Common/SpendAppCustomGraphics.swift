@@ -24,7 +24,6 @@ class SpendAppCustomGraphics: UIView {
     // Reduced pie chart into [reduction + 1] segements
     static func buildPieChartReduced(reduction:Int, with inData:[Float], on inView:UIView, arcCenter: CGPoint){
         let inDataSorted = Array(inData[1 ..< inData.count].sorted().reversed())
-        print(inDataSorted)
         var processedData: [Float] = []
         
         // Reducing data
@@ -37,7 +36,6 @@ class SpendAppCustomGraphics: UIView {
             processedData = inDataSorted
         }
         processedData.insert(inData[0], at: 0)
-        print(processedData)
         
         buildPieChart(with: processedData, on: inView, arcCenter: arcCenter)
     }

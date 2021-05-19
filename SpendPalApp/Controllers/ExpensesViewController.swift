@@ -47,7 +47,6 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             $0.amount?.decimalValue ?? 0
         } ?? [0]
         totalExpensesVal = expensesVals.reduce(0, +)
-        print(totalExpensesVal)
         
     }
     
@@ -187,7 +186,6 @@ class ExpensesViewController: UIViewController, UITableViewDelegate, UITableView
             let predicateExpense = NSPredicate(format: "assignedCategory = %@", expenseCategory)
             fetchRequest.predicate = predicateExpense
         } else {
-            print("No Expense Category")
             return NSFetchedResultsController<Expense>()
         }
         
